@@ -3,10 +3,10 @@ package model;
 public class Pawn {
     private int x;
     private int y;
-    private int color;
+    private String color;
     private char symbol;
 
-    public Pawn(int x, int y, int color, char symbol) {
+    public Pawn(int x, int y, String color, char symbol) {
         this.x = x;
         this.y = y;
         this.color = color;
@@ -21,7 +21,7 @@ public class Pawn {
         return y;
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
@@ -33,7 +33,7 @@ public class Pawn {
         this.y = y;
     }
 
-    public void setColor(int color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
