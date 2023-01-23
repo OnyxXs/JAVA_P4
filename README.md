@@ -11,6 +11,6 @@ Un vrai puissance 4 avec du vrai java
 #### Timéo
 - Github: [@OnyxXs](https://github.com/OnyxXs)
 #### Ethan
-- Github: [@Jojo12369](https://github.com/Jojo12369)
+- Github: [@Stanewolfer](https://github.com/Jojo12369)
 #### Jean-Juste
 - Github: [@Jojo12369](https://github.com/Jojo12369)
