@@ -7,6 +7,9 @@ public class Pawn {
         this.player = player;
     }
 
+    public Pawn() {
+    }
+
     public Player getPlayer() {
         return player;
     }
