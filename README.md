@@ -7,10 +7,10 @@ Un vrai puissance 4 avec du vrai java
         
 ## 🙇 Author
 #### Océane
-- Github: [@OnyxXs](https://github.com/OnyxXs)
+- Github: [@Oceeeee](https://github.com/Oceeeee)
 #### Timéo
 - Github: [@OnyxXs](https://github.com/OnyxXs)
 #### Ethan
 - Github: [@Stanewolfer](https://github.com/Stanewolfer)
 #### Jean-Juste
-- Github: [@Jojo12369](https://github.com/Jojo12369)
+- Github: [@JustOverFR](https://github.com/justoverfr)
