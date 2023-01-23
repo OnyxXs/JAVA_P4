@@ -1,5 +1,7 @@
 package model;
 
-public class Board {
+import java.util.ArrayList;
 
+public class Board {
+    public static ArrayList<Board> boards = new ArrayList<Board>();
 }
