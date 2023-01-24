@@ -1,5 +1,6 @@
 package model;
 
+
 public class Menu {
     public static void displayMainMenu() {
         System.out.println(Style.BACKGROUND_CYAN + Style.GREEN + "Menu principal" + Style.BACKGROUND_RESET);
@@ -24,7 +25,7 @@ public class Menu {
     public static void displaySymbolMenu(Player player) {
         System.out.println(Style.BACKGROUND_CYAN + Style.GREEN + "Choix du symbole" + Style.BACKGROUND_RESET);
         System.out.println("1. @");
-        System.out.println("2. =" + Style.RESET);
+        System.out.println("2. o" + Style.RESET);
     }
 
     public static void displayError(String message) {
