@@ -7,7 +7,7 @@ public class Game {
     private Player currentPlayer;
     private Board board;
     private int turn = 1;
-    private boolean isOver = false;
+    private boolean isPlaying = false;
 
     public Game(Player player1, Player player2) {
         this.player1 = player1;
@@ -36,8 +36,16 @@ public class Game {
         return board;
     }
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public void setPlayingStatus(boolean status) {
+        isPlaying = status;
     }
 
     public void switchPlayer() {
@@ -61,8 +69,17 @@ public class Game {
         return board.isFull() && !board.hasWinner();
     }
 
-    public void play(int row, int col) {
-        board.setCell(row, col, currentPlayer.getSymbol());
+    public void play(int col) {
+        int colHeight = board.getColumnHeight(col);
+
+        System.out.println(board);
+        for (int row = 0; row < colHeight; row++) {
+            if (row != 0) {
+                board.setCell(row - 1, col, null);
+            }
+            board.setCell(row, col, currentPlayer);
+            System.out.println(board);
+        }
         switchPlayer();
     }
 

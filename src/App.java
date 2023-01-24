@@ -62,7 +62,11 @@ public class App {
 
         game.setBoard(new Board(7, 6));
         game.getBoard().initBoard();
-        game.display();
+        game.setPlayingStatus(true);
+
+        while (game.isPlaying()) {
+            playGame(game);
+        }
     }
 
     public static void selectPlayerNameOption(Player player) {
@@ -123,5 +127,43 @@ public class App {
                     break;
             }
         }
+    }
+
+    public static void selectPlayerColumnOption(Game game) {
+        while (true) {
+            Menu.displayPlayMenu();
+
+            String input = getUserInput();
+            int column = Integer.parseInt(input);
+            column--;
+
+            if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
+                if (game.getBoard().isColumnFull(column)) {
+                    Menu.printError("Colonne pleine !");
+                } else {
+                    // game.getBoard().addToken(column - 1, game.getCurrentPlayer().getSymbol());
+                    // game.display();
+                    game.play(column);
+                    return;
+                }
+            } else {
+                Menu.printError("Colonne invalide !");
+            }
+        }
+    }
+
+    public static void playGame(Game game) {
+        selectPlayerColumnOption(game);
+
+        // if (game.getBoard().isWinning(game.getCurrentPlayer().getSymbol())) {
+        // Menu.displayWinningMenu(game);
+        // game.setPlayingStatus(false);
+        // } else if (game.getBoard().isFull()) {
+        // Menu.displayDrawMenu();
+        // game.setPlayingStatus(false);
+        // } else {
+        // game.switchPlayer();
+        // }
+        game.switchPlayer();
     }
 }

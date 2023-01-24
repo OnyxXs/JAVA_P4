@@ -33,6 +33,10 @@ public class Menu {
         printMenuOptions(options.toString());
     }
 
+    public static void displayPlayMenu() {
+        printInputQuery("Entrez le numéro de la colonne sur laquelle jouer :");
+    }
+
     public static void printMenuTitle(String title) {
         printStylizedText(title, new String[] { Style.BACKGROUND_CYAN });
     }

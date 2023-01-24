@@ -86,6 +86,10 @@ public class Board {
         return result.toString();
     }
 
+    public void setCell(int x, int y, Player player) {
+        board.get(x).get(y).setPlayer(player);
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
