@@ -6,18 +6,18 @@ public class Game {
     private Player player2;
     private Player currentPlayer;
     private Board board;
-    private int turn;
+    private int turn = 1;
     private boolean isOver = false;
 
     public Game(Player player1, Player player2) {
-        // player1 = new Player();
-        // player2 = new Player();
-        // currentPlayer = player1;
-        // board = new Board();
-
         this.player1 = player1;
         this.player2 = player2;
         currentPlayer = player1;
+    }
+
+    public void display() {
+        String gameDisplay = this.toString();
+        System.out.println(gameDisplay);
     }
 
     public Player getPlayer1() {
@@ -45,6 +45,7 @@ public class Game {
             currentPlayer = player2;
         } else {
             currentPlayer = player1;
+            turn++;
         }
     }
 
@@ -68,5 +69,15 @@ public class Game {
     public void reset() {
         board.reset();
         currentPlayer = player1;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append(board + "\n");
+        result.append("Tour n°" + turn + "\n");
+        result.append("Tour de " + currentPlayer.getName() + "\n");
+
+        return result.toString();
     }
 }

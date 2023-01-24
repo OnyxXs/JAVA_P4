@@ -62,7 +62,7 @@ public class App {
 
         game.setBoard(new Board(7, 6));
         game.getBoard().initBoard();
-        Menu.displayBoard(game);
+        game.display();
     }
 
     public static void selectPlayerNameOption(Player player) {

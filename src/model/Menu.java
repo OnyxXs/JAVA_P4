@@ -70,9 +70,4 @@ public class Menu {
     public static void printError(String message) {
         printColoredText(message, Style.RED);
     }
-
-    public static void displayBoard(Game game) {
-        String board = game.getBoard().toString();
-        System.out.println(board);
-    }
 }
