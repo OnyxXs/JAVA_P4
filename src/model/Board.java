@@ -13,7 +13,6 @@ public class Board {
     }
 
     public Board() {
-
     }
 
     public void initBoard() {
@@ -67,8 +66,9 @@ public class Board {
 
     public String getRowToString(int y) {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < width; i++) {
-            result.append(getCellToString(i, y));
+        for (int col = 0; col < width; col++) {
+            y /= 2;
+            result.append(getCellToString(col, y));
         }
         result.append("|");
         return result.toString();
@@ -78,9 +78,13 @@ public class Board {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("  1   2   3   4   5   6   7\n");
-        for (int i = 0; i < height; i++) {
-            String row = getRowToString(i);
-            result.append(row);
+        for (int i = 0; i < height * 2 - 1; i++) {
+            if (i % 2 == 0) {
+                String row = getRowToString(i);
+                result.append(row);
+            } else {
+                result.append("|---+---+---+---+---+---+---|");
+            }
             result.append("\n");
         }
 
