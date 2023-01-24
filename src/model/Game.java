@@ -1,5 +1,6 @@
 package model;
 
+
 public class Game {
 
     private Player player1;
@@ -65,11 +66,12 @@ public class Game {
 
     public void play(int row, int col) {
         board.setCell(row, col, currentPlayer.getSymbol());
+
         switchPlayer();
     }
 
     public void reset() {
-        board.reset();
+        board.initBoard();
         currentPlayer = player1;
     }
 

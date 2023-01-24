@@ -3,6 +3,10 @@ import model.Game;
 import model.Player;
 import model.Board;
 import model.Menu;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import java.util.Scanner;
 
@@ -18,8 +22,10 @@ public class App {
         String input = scanner.nextLine();
         return input;
     }
+    public static boolean VSIA = false;
 
     public static void SelectMainMenuOption() {
+        
         while (true) {
             Menu.displayMainMenu();
 
@@ -27,6 +33,7 @@ public class App {
             switch (input) {
                 case "1":
                     System.out.println("1");
+                    VSIA=true;
                     return;
                 case "2":
                     initMultiplayerGame();
@@ -123,5 +130,15 @@ public class App {
                     break;
             }
         }
+    }
+    public static void scores(Player player1, Player player2) throws IOException{
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/scores.csv", true)));
+        if(VSIA==true){
+            pw.println(player1.getName()+" ; "+player1.getScore()+" ; IA niveau "+player2.getDifficulty());
+        }
+        else{
+            pw.println(player1.getName()+" ; "+player2.getName()+" ; "+player1.getScore());
+        }
+        pw.close();
     }
 }
