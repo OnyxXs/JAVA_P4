@@ -1,8 +1,8 @@
 package model;
 
 /**
- * Classe publique représentant le joueur
- */
+* Classe publique représentant le joueur
+*/
 public class Player {
     private String name;
     private String color;
@@ -10,10 +10,10 @@ public class Player {
     private int number;
 
     /**
-     * name : le nom du joeur
-     * color : la couleur du joueur
-     * symbol : l'icone en jeu du joueur
-     */
+    * name : le nom du joeur
+    * color : la couleur du joueur
+    * symbol : l'icone en jeu du joueur
+    */
     public Player(String name, String color, char symbol) {
         this.name = name;
         this.color = color;
@@ -21,63 +21,63 @@ public class Player {
     }
 
     /**
-     * Crée un nouveau joueur
-     */
+    * Crée un nouveau joueur
+    */
     public Player() {
     }
 
     /**
-     * récupère et retourne le nom du joueur
-     */
+    * récupère et retourne le nom du joueur
+    */
     public String getName() {
         return name;
     }
 
     /**
-     * récupère et retourne la couleur du joueur
-     */
+    * récupère et retourne la couleur du joueur
+    */
     public String getColor() {
         return color;
     }
 
     /**
-     * récupère et retourne l'icone du joueur
-     */
+    * récupère et retourne l'icone du joueur
+    */
     public char getSymbol() {
         return symbol;
     }
 
     /**
-     * récupère et retourne le numéro du joueur
-     */
+    * récupère et retourne le numéro du joueur
+    */
     public int getNumber() {
         return number;
     }
 
     /**
-     * créer un nom de joeur
-     */
+    * créer un nom de joeur
+    */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * créer une couleur de joueur
-     */
+    * créer une couleur de joueur
+    */
     public void setColor(String color) {
         this.color = color;
     }
 
     /**
-     * créer un symbole de joueur
-     */
+    * créer un symbole de joueur
+    */
     public void setSymbol(char symbol) {
         this.symbol = symbol;
     }
 
     /**
-     * créer le numéro du joueur
-     */
+    * créer le numéro du joueur
+    */
     public void setNumber(int number) {
         this.number = number;
     }
