@@ -4,7 +4,8 @@ Un vrai puissance 4 avec du vrai java
 
 ## 🧐 Features
 
--   aucune pour le moment, updates en cours
+-   choisir son nom, son symbole, sa couleur
+-   fichier scores.csv pour stocker les scores des parties
 
 ## 🙇 Authors
 
