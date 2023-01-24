@@ -36,12 +36,24 @@ public class Board {
     }
 
     public boolean isFull() {
+        int[] fullColumns = getFullColumns();
+        return fullColumns.length == width;
+    }
+
+    public boolean isColumnFull(int col) {
+        return getColumnHeight(col) == height;
+    }
+
+    public int[] getFullColumns() {
+        int[] fullColumns = new int[width];
+        int index = 0;
         for (int i = 0; i < width; i++) {
-            if (getColumnHeight(i) < height) {
-                return false;
+            if (isColumnFull(i)) {
+                fullColumns[index] = i;
+                index++;
             }
         }
-        return true;
+        return fullColumns;
     }
 
     public int getWidth() {
