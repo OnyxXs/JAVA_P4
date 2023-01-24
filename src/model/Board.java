@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 /**
-* Classe représentant le tableau
+* Classe publique représentant le tableau
 */
 public class Board {
     /**
