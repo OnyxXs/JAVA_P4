@@ -35,10 +35,10 @@ public class App {
                     System.out.println("3");
                     return;
                 case "4":
-                    Menu.displayError("Fermeture du programme...");
+                    Menu.printError("Fermeture du programme...");
                     return;
                 default:
-                    Menu.displayError("Option invalide !");
+                    Menu.printError("Option invalide !");
                     break;
             }
         }
@@ -62,13 +62,7 @@ public class App {
 
         game.setBoard(new Board(7, 6));
         game.getBoard().initBoard();
-        Menu.displayBoard(game);
-        // System.out.println(game.getPlayer1().getColor() + game.getPlayer1().getName()
-        // + game.getPlayer1().getSymbol()
-        // + Style.RESET);
-        // System.out.println(game.getPlayer2().getColor() + game.getPlayer2().getName()
-        // + game.getPlayer2().getSymbol()
-        // + Style.RESET);
+        game.display();
     }
 
     public static void selectPlayerNameOption(Player player) {
@@ -80,7 +74,7 @@ public class App {
                 player.setName(input);
                 return;
             } else {
-                Menu.displayError("Nom invalide !");
+                Menu.printError("Nom invalide !");
             }
         }
     }
@@ -104,7 +98,7 @@ public class App {
                     player.setColor(Style.GREEN);
                     return;
                 default:
-                    Menu.displayError("Option invalide !");
+                    Menu.printError("Option invalide !");
                     break;
             }
         }
@@ -125,7 +119,7 @@ public class App {
                     player2.setSymbol('@');
                     return;
                 default:
-                    Menu.displayError("Option invalide !");
+                    Menu.printError("Option invalide !");
                     break;
             }
         }
