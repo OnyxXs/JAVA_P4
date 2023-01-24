@@ -4,10 +4,14 @@ import model.Player;
 import model.Board;
 import model.Menu;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -40,6 +44,7 @@ public class App {
                     return;
                 case "3":
                     System.out.println("3");
+                    afficherscores();
                     return;
                 case "4":
                     Menu.printError("Fermeture du programme...");
@@ -131,7 +136,7 @@ public class App {
             }
         }
     }
-    public static void scores(Player player1, Player player2) throws IOException{
+    public static void entrerscores(Player player1, Player player2) throws IOException{
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/scores.csv", true)));
         if(VSIA==true){
             pw.println(player1.getName()+" ; "+player1.getScore()+" ; IA niveau "+player2.getDifficulty());
@@ -140,5 +145,9 @@ public class App {
             pw.println(player1.getName()+" ; "+player2.getName()+" ; "+player1.getScore());
         }
         pw.close();
+    }
+
+    public static void afficherscores() throws IOException{
+        
     }
 }
