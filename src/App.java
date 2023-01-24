@@ -136,13 +136,12 @@ public class App {
             String input = getUserInput();
             int column = Integer.parseInt(input);
             column--;
+            System.out.println("Vous avez choisi la colonne " + (column + 1));
 
             if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
                 if (game.getBoard().isColumnFull(column)) {
-                    Menu.printError("Colonne pleine !");
+                    Menu.printError("La colonne est pleine !");
                 } else {
-                    // game.getBoard().addToken(column - 1, game.getCurrentPlayer().getSymbol());
-                    // game.display();
                     game.play(column);
                     return;
                 }
@@ -153,17 +152,19 @@ public class App {
     }
 
     public static void playGame(Game game) {
-        selectPlayerColumnOption(game);
+        // selectPlayerColumnOption(game);
 
-        // if (game.getBoard().isWinning(game.getCurrentPlayer().getSymbol())) {
-        // Menu.displayWinningMenu(game);
-        // game.setPlayingStatus(false);
-        // } else if (game.getBoard().isFull()) {
-        // Menu.displayDrawMenu();
-        // game.setPlayingStatus(false);
-        // } else {
+        // // if (game.getBoard().isWinning(game.getCurrentPlayer().getSymbol())) {
+        // // Menu.displayWinningMenu(game);
+        // // game.setPlayingStatus(false);
+        // // } else if (game.getBoard().isFull()) {
+        // // Menu.displayDrawMenu();
+        // // game.setPlayingStatus(false);
+        // // } else {
+        // // game.switchPlayer();
+        // // }
         // game.switchPlayer();
-        // }
-        game.switchPlayer();
+        game.display();
+        selectPlayerColumnOption(game);
     }
 }

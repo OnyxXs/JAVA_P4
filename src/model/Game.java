@@ -12,7 +12,7 @@ public class Game {
     public Game(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        currentPlayer = player1;
+        this.currentPlayer = player1;
     }
 
     public void display() {
@@ -72,14 +72,21 @@ public class Game {
     public void play(int col) {
         int colHeight = board.getColumnHeight(col);
 
-        System.out.println(board);
-        for (int row = 0; row < colHeight; row++) {
-            if (row != 0) {
-                board.setCell(row - 1, col, null);
+        for (int i = 0; i < colHeight; i++) {
+            if (i != 0) {
+                board.setCell(col, i - 1, null);
             }
-            board.setCell(row, col, currentPlayer);
-            System.out.println(board);
+            board.setCell(col, i, currentPlayer);
+
+            System.out.println(board.toString() + "\r");
+            System.out.flush();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
         switchPlayer();
     }
 
