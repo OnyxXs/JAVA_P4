@@ -13,6 +13,7 @@ public class Board {
     }
 
     public Board() {
+
     }
 
     public void initBoard() {
@@ -44,25 +45,47 @@ public class Board {
         return true;
     }
 
-    public void displayBoard() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-
-                if (board.get(i).get(j).getPlayer() == null) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print(board.get(i).get(j).getPlayer().getSymbol());
-                }
-            }
-            System.out.println();
-        }
-    }
-
     public int getWidth() {
         return width;
     }
 
     public int getHeight() {
         return height;
+    }
+
+    public String getCellToString(int x, int y) {
+        StringBuilder result = new StringBuilder();
+        result.append("| ");
+        if (board.get(x).get(y).getPlayer() == null) {
+            result.append(" ");
+        } else {
+            result.append(board.get(x).get(y).getPlayer().getSymbol());
+        }
+        result.append(" ");
+        return result.toString();
+    }
+
+    public String getRowToString(int y) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < width; i++) {
+            result.append(getCellToString(i, y));
+        }
+        result.append("|");
+        return result.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("  1   2   3   4   5   6   7\n");
+        for (int i = 0; i < height; i++) {
+            String row = getRowToString(i);
+            result.append(row);
+            result.append("\n");
+        }
+
+        result.append("\\===========================/");
+
+        return result.toString();
     }
 }
