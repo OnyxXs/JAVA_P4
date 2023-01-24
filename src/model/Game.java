@@ -69,8 +69,4 @@ public class Game {
         board.reset();
         currentPlayer = player1;
     }
-
-    public String toString() {
-        return board.toString();
-    }
 }
