@@ -131,12 +131,12 @@ public class App {
 
     public static void selectPlayerColumnOption(Game game) {
         while (true) {
+            game.display();
             Menu.displayPlayMenu();
 
             String input = getUserInput();
             int column = Integer.parseInt(input);
             column--;
-            System.out.println("Vous avez choisi la colonne " + (column + 1));
 
             if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
                 if (game.getBoard().isColumnFull(column)) {
@@ -152,19 +152,6 @@ public class App {
     }
 
     public static void playGame(Game game) {
-        // selectPlayerColumnOption(game);
-
-        // // if (game.getBoard().isWinning(game.getCurrentPlayer().getSymbol())) {
-        // // Menu.displayWinningMenu(game);
-        // // game.setPlayingStatus(false);
-        // // } else if (game.getBoard().isFull()) {
-        // // Menu.displayDrawMenu();
-        // // game.setPlayingStatus(false);
-        // // } else {
-        // // game.switchPlayer();
-        // // }
-        // game.switchPlayer();
-        game.display();
         selectPlayerColumnOption(game);
     }
 }

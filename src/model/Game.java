@@ -70,24 +70,30 @@ public class Game {
     }
 
     public void play(int col) {
-        int colHeight = board.getColumnHeight(col);
+        placePawn(col);
 
-        for (int i = 0; i < colHeight; i++) {
-            if (i != 0) {
-                board.setCell(col, i - 1, null);
+        switchPlayer();
+    }
+
+    public void placePawn(int col) {
+        int LowestEmptyCell = board.getLowestEmptyCell(col);
+
+        for (int row = 0; row <= LowestEmptyCell; row++) {
+            if (row != 0) {
+                board.setCell(col, row - 1, null);
             }
-            board.setCell(col, i, currentPlayer);
+            board.setCell(col, row, currentPlayer);
 
-            System.out.println(board.toString() + "\r");
-            System.out.flush();
+            if (row != LowestEmptyCell) {
+                System.out.println(board.toString());
+            }
+
             try {
-                Thread.sleep(1000);
+                Thread.sleep(200); // Attends x ms avant de passer à l'itération suivante
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-        switchPlayer();
     }
 
     public void reset() {
@@ -100,7 +106,7 @@ public class Game {
         StringBuilder result = new StringBuilder();
         result.append(board + "\n");
         result.append("Tour n°" + turn + "\n");
-        result.append("Tour de " + currentPlayer.getName() + "\n");
+        result.append("Tour de " + currentPlayer.getColor() + currentPlayer.getName() + Style.RESET + "\n");
 
         return result.toString();
     }

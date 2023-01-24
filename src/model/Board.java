@@ -25,14 +25,16 @@ public class Board {
         }
     }
 
-    public int getColumnHeight(int col) {
-        int height = 0;
-        for (int row = 0; row < this.height; row++) {
-            if (board.get(row).get(col).getPlayer() == null) {
-                height++;
+    public int getLowestEmptyCell(int col) {
+        int row = height - 1;
+
+        while (board.get(row).get(col).getPlayer() != null) {
+            row--;
+            if (row < 0) {
+                return -1;
             }
         }
-        return height - 1;
+        return row;
     }
 
     public boolean isFull() {
@@ -41,7 +43,10 @@ public class Board {
     }
 
     public boolean isColumnFull(int col) {
-        return board.get(0).get(col).getPlayer() != null;
+        if (getLowestEmptyCell(col) < 0) {
+            return true;
+        }
+        return false;
     }
 
     public int[] getFullColumns() {
