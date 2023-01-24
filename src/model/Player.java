@@ -10,9 +10,9 @@ public class Player {
     private int number;
 
     /**
-     * @param name le nom du joeur
-     * @param color la couleur du joueur
-     * @param symbol l'icone en jeu du joueur
+     * name : le nom du joeur
+     * color : la couleur du joueur
+     * symbol : l'icone en jeu du joueur
      */
     public Player(String name, String color, char symbol) {
         this.name = name;
