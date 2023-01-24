@@ -1,6 +1,7 @@
 import model.Style;
 import model.Game;
 import model.Player;
+import model.Board;
 
 import java.util.Scanner;
 
@@ -69,6 +70,10 @@ public class App {
         selectColorOption(player2);
 
         Game game = new Game(player1, player2);
+
+        game.setBoard(new Board(7, 6));
+        game.getBoard().initBoard();
+        game.getBoard().displayBoard();
         // System.out.println(game.getPlayer1().getColor() + game.getPlayer1().getName()
         // + game.getPlayer1().getSymbol()
         // + Style.RESET);

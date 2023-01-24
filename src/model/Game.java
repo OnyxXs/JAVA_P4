@@ -36,6 +36,10 @@ public class Game {
         return board;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     public void switchPlayer() {
         if (currentPlayer == player1) {
             currentPlayer = player2;

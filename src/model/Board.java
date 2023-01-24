@@ -35,6 +35,29 @@ public class Board {
         return height;
     }
 
+    public boolean isFull() {
+        for (int i = 0; i < width; i++) {
+            if (getColumnHeight(i) < height) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void displayBoard() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+
+                if (board.get(i).get(j).getPlayer() == null) {
+                    System.out.print(" ");
+                } else {
+                    System.out.print(board.get(i).get(j).getPlayer().getSymbol());
+                }
+            }
+            System.out.println();
+        }
+    }
+
     public int getWidth() {
         return width;
     }
