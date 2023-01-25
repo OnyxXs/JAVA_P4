@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Game {
 
     private Player player1;
@@ -70,13 +72,23 @@ public class Game {
     }
 
     public void play(int col) {
-        placePawn(col);
+        int row = board.getLowestEmptyCell(col);
+        placePawn(col, row);
+
+        if (checkVictory(col, row, currentPlayer)) {
+            System.out.println("Victoire de " + currentPlayer.getName());
+            isPlaying = false;
+            return;
+        } else if (board.isFull()) {
+            System.out.println("Match nul");
+            isPlaying = false;
+            return;
+        }
 
         switchPlayer();
     }
 
-    public void placePawn(int col) {
-        int LowestEmptyCell = board.getLowestEmptyCell(col);
+    public void placePawn(int col, int LowestEmptyCell) {
 
         for (int row = 0; row <= LowestEmptyCell; row++) {
             if (row != 0) {
@@ -92,6 +104,113 @@ public class Game {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ArrayList<int[]> getWinningPositions(Player player) {
+        ArrayList<int[]> winningPositions = new ArrayList<int[]>();
+
+        for (int row = 0; row < board.getHeight(); row++) {
+            for (int col = 0; col < board.getWidth(); col++) {
+                if (board.getCell(col, row) == null) {
+                    // temporarily place a pawn at this position
+                    board.setCell(col, row, player);
+
+                    // check if this move results in a win
+                    if (checkVictory(col, row, player)) {
+                        int[] position = { col, row };
+                        winningPositions.add(position);
+                    }
+
+                    // remove the temporarily placed pawn
+                    board.setCell(col, row, null);
+                }
+            }
+        }
+
+        return winningPositions;
+    }
+
+    public boolean checkVictory(int col, int row, Player player) {
+        // check for horizontal win
+        int count = 0;
+        for (int i = 0; i < board.getWidth(); i++) {
+            if (board.getCell(i, row) != null && board.getCell(i, row).getPlayer() == player) {
+                count++;
+                if (count == 4) {
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+        }
+
+        // check for vertical win
+        count = 0;
+        for (int i = 0; i < board.getHeight(); i++) {
+            if (board.getCell(col, i) != null && board.getCell(col, i).getPlayer() == player) {
+                count++;
+                if (count == 4) {
+                    return true;
+                }
+            } else {
+                count = 0;
+
+            }
+        }
+
+        // check for diagonal win (from top left to bottom right)
+        count = 0;
+        int i = row;
+        int j = col;
+        while (i > 0 && j > 0) {
+            i--;
+            j--;
+        }
+        while (i < board.getHeight() && j < board.getWidth()) {
+            if (board.getCell(j, i) != null && board.getCell(j, i).getPlayer() == player) {
+                count++;
+                if (count == 4) {
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+            i++;
+            j++;
+        }
+        // check for diagonal win (from top right to bottom left)
+        count = 0;
+        i = row;
+        j = col;
+        while (i > 0 && j < board.getWidth() - 1) {
+            i--;
+            j++;
+        }
+        while (i < board.getHeight() && j >= 0) {
+            if (board.getCell(j, i) != null && board.getCell(j, i).getPlayer() == player) {
+                count++;
+                if (count == 4) {
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+            i++;
+            j--;
+        }
+        // no win
+        return false;
+    }
+
+    public boolean isPlayingInWinningPosition(int col, int row) {
+        ArrayList<int[]> winningPositions = getWinningPositions(currentPlayer);
+
+        for (int[] position : winningPositions) {
+            if (position[0] == col && position[1] == row) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void reset() {

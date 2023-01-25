@@ -30,7 +30,7 @@ public class App {
                     return;
                 case "2":
                     initMultiplayerGame();
-                    return;
+                    break;
                 case "3":
                     System.out.println("3");
                     return;
@@ -93,11 +93,7 @@ public class App {
                 int colorIndex = Integer.parseInt(input);
                 colorIndex--;
 
-                String selectedColor = Player.colorListIndex.get(colorIndex).getValue();
-                String colorName = Player.colorListIndex.get(colorIndex).getKey();
-
-                Player.colorListIndex.remove(colorIndex);
-                Player.colorList.remove(colorName);
+                String selectedColor = selectColor(colorIndex);
                 player.setColor(selectedColor);
                 return;
 

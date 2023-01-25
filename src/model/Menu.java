@@ -30,6 +30,7 @@ public class Menu {
             options.append(colorName + "\n");
             options.append(Style.RESET);
         }
+        options.deleteCharAt(options.length() - 1);
         printMenuOptions(options.toString());
     }
 

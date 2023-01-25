@@ -38,27 +38,28 @@ public class Board {
     }
 
     public boolean isFull() {
-        int[] fullColumns = getFullColumns();
-        return fullColumns.length == width;
+        for (int col = 0; col < width; col++) {
+            if (!isColumnFull(col)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isColumnFull(int col) {
-        if (getLowestEmptyCell(col) < 0) {
-            return true;
-        }
-        return false;
+        return board.get(0).get(col).getPlayer() != null;
     }
 
     public int[] getFullColumns() {
-        int[] fullColumns = new int[width];
-        int index = 0;
-        for (int i = 0; i < width; i++) {
-            if (isColumnFull(i)) {
-                fullColumns[index] = i;
-                index++;
+        int[] result = new int[width];
+        int count = 0;
+        for (int col = 0; col < width; col++) {
+            if (isColumnFull(col)) {
+                result[count] = col;
+                count++;
             }
         }
-        return fullColumns;
+        return result;
     }
 
     public int getWidth() {
@@ -90,6 +91,10 @@ public class Board {
         }
         result.append("|");
         return result.toString();
+    }
+
+    public Pawn getCell(int col, int row) {
+        return board.get(row).get(col);
     }
 
     public void setCell(int col, int row, Player player) {
