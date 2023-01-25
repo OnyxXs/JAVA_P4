@@ -1,10 +1,25 @@
 package model;
 
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+
 public class Player {
     private String name;
     private String color;
     private char symbol;
     private int number;
+
+    public static Map<String, String> colorList = new HashMap<>() {
+        {
+            put("Rouge", Style.RED);
+            put("Bleu", Style.BLUE);
+            put("Jaune", Style.YELLOW);
+            put("Vert", Style.GREEN);
+        }
+    };
+
+    public static ArrayList<Map.Entry<String, String>> colorListIndex = new ArrayList<>(colorList.entrySet());
 
     public Player(String name, String color, char symbol) {
         this.name = name;

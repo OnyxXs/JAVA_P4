@@ -88,24 +88,30 @@ public class App {
             Menu.displayColorMenu(player);
 
             String input = getUserInput();
-            switch (input) {
-                case "1":
-                    player.setColor(Style.RED);
-                    return;
-                case "2":
-                    player.setColor(Style.BLUE);
-                    return;
-                case "3":
-                    player.setColor(Style.YELLOW);
-                    return;
-                case "4":
-                    player.setColor(Style.GREEN);
-                    return;
-                default:
-                    Menu.printError("Option invalide !");
-                    break;
+
+            try {
+                int colorIndex = Integer.parseInt(input);
+                colorIndex--;
+
+                String selectedColor = Player.colorListIndex.get(colorIndex).getValue();
+                String colorName = Player.colorListIndex.get(colorIndex).getKey();
+
+                Player.colorListIndex.remove(colorIndex);
+                Player.colorList.remove(colorName);
+                player.setColor(selectedColor);
+                return;
+
+            } catch (Exception e) {
+
             }
         }
+    }
+
+    public static String selectColor(int colorIndex) {
+        String selectedColor = Player.colorListIndex.get(colorIndex).getValue();
+        Player.colorListIndex.remove(colorIndex);
+
+        return selectedColor;
     }
 
     public static void selectSymbolOption(Player player1, Player player2) {

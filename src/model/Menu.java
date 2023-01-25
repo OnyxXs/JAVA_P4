@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 public class Menu {
     public static void displayMainMenu() {
         System.out.println(Style.BACKGROUND_CYAN + Style.GREEN + "Menu principal" + Style.BACKGROUND_RESET);
@@ -18,10 +20,16 @@ public class Menu {
     public static void displayColorMenu(Player player) {
         printMenuTitle("Choix de la couleur");
         StringBuilder options = new StringBuilder();
-        options.append("1. Rouge\n");
-        options.append("2. Bleu\n");
-        options.append("3. Jaune\n");
-        options.append("4. Vert");
+
+        for (int colorNumber = 0; colorNumber < Player.colorListIndex.size(); colorNumber++) {
+            String color = Player.colorListIndex.get(colorNumber).getValue();
+            String colorName = Player.colorListIndex.get(colorNumber).getKey();
+
+            options.append((colorNumber + 1) + ". ");
+            options.append(color);
+            options.append(colorName + "\n");
+            options.append(Style.RESET);
+        }
         printMenuOptions(options.toString());
     }
 
