@@ -53,7 +53,7 @@ public class Board {
         while (board.get(row).get(col).getPlayer() != null) {
             row--;
             if (row < 0) {
-                return -1
+                return -1;
             }
         }
         return row;
