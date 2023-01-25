@@ -18,20 +18,40 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+* classe publique représentant les fonctions de l'application
+*/
 public class App {
+
+    /**
+    * Crée un scanner 
+    */
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+    * Appel la fonction pour sélectionner l'option du menu principal
+    */
     public static void main(String[] args) throws Exception {
-        SelectMainMenuOption();
+    SelectMainMenuOption();
     }
 
+    /**
+    * recupere l'entrée de l'utilisateur via scanner
+    */
     public static String getUserInput() {
         // Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         return input;
     }
+
     public static boolean VSIA = false;
 
+    /**
+    * affiche le main menu
+    * permet a l'utilisateur de faire des choix et appele la fonction associée au choix 
+    * la boucle while continuera de tourner tant que l'option 4 n'est pas selectionnée
+    * un message d'erreur s'affiche si l'utilisateur entre une touche non valide
+    */
     public static void SelectMainMenuOption() throws IOException {
         
         while (true) {
@@ -60,6 +80,10 @@ public class App {
         }
     }
 
+    /**
+    * Initialise une nouvelle partie multijoueur en créant deux joueurs (couleur, pseudo, symbole)
+    * crée un nouveau tableau et commence la boucle de jeu
+    */
     public static void initMultiplayerGame() {
         Player player1 = new Player();
         player1.setNumber(1);
@@ -85,6 +109,10 @@ public class App {
         }
     }
 
+    /**
+    * méthode qui se repete tant que le joueur n'a pas choisi de pseudo
+    * un message d'erreur s'affiche si le nom n'est pas valide
+    */
     public static void selectPlayerNameOption(Player player) {
         while (true) {
             Menu.displayPlayerNameMenu(player);
@@ -99,6 +127,10 @@ public class App {
         }
     }
 
+    /**
+    * le joueur tape un chiffre qui défini sa couleur
+    * Un message d'erreur s'affiche si le chiffre ne correspond pas a une couleur
+    */
     public static void selectColorOption(Player player) {
         while (true) {
             Menu.displayColorMenu(player);
@@ -124,6 +156,9 @@ public class App {
         }
     }
 
+    /**
+    * Permet à un joueur de sélectionner un symbole pour jouer
+    */
     public static void selectSymbolOption(Player player1, Player player2) {
         while (true) {
             Menu.displaySymbolMenu(player1);
@@ -145,6 +180,10 @@ public class App {
         }
     }
      
+    /**
+    * le joeur choisi dans quelle colonne mettre son pion
+    * cette fonction tourne tant qu'une colonne valide n'est pas saisie
+    */
     public static void selectPlayerColumnOption(Game game) {
         while (true) {
             game.display();
@@ -171,7 +210,11 @@ public class App {
         selectPlayerColumnOption(game);
     }
 
-
+    /**
+    * Cette méthode permet d'entrer les scores dans "scores.csv"
+    * Si le mode de jeu est contre l'IA, seul le nom du joueur et le score sont enregistrés ainsi que le niveau de difficulté de l'IA
+    * Sinon, les noms des deux joueurs et le score final sont enregistrés.
+    */
     public static void entrerscores(Player player1, Player player2) throws IOException{
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/scores.csv", true)));
         if(VSIA==true){
@@ -183,6 +226,11 @@ public class App {
         pw.close();
     }
 
+    /**
+    * lis le fichier "scores.csv" qui contiens les scores de la partie précedente
+    * trie les scores par les troisiemes elements de la ligne qui représente le score
+    * affiche le score dans l'ordre trié
+    */
     public static void afficherscores() throws IOException{
         List<String> scores = new ArrayList<String>();
         BufferedReader br = new BufferedReader(new FileReader("src/scores.csv"));
