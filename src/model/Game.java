@@ -8,14 +8,14 @@ public class Game {
     private Player currentPlayer;
     private Board board;
     private int turn = 1;
-    private boolean isOver = false;
+    private boolean isPlaying = false;
 
     public Game(Player player1, Player player2) {
 
 
         this.player1 = player1;
         this.player2 = player2;
-        currentPlayer = player1;
+        this.currentPlayer = player1;
     }
 
     public void display() {
@@ -39,8 +39,16 @@ public class Game {
         return board;
     }
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public void setPlayingStatus(boolean status) {
+        isPlaying = status;
     }
 
     public void switchPlayer() {
@@ -64,10 +72,29 @@ public class Game {
         return board.isFull() && !board.hasWinner();
     }
 
-    public void play(int row, int col) {
-        board.setCell(row, col, currentPlayer.getSymbol());
+    public void play(int col) {
+        placePawn(col);
 
         switchPlayer();
+    }
+
+    public void placePawn(int col) {
+        int LowestEmptyCell = board.getLowestEmptyCell(col);
+
+        for (int row = 0; row <= LowestEmptyCell; row++) {
+            if (row != 0) {
+                board.setCell(col, row - 1, null);
+            }
+            board.setCell(col, row, currentPlayer);
+
+            System.out.println(board.toString());
+
+            try {
+                Thread.sleep(200); // Attends x ms avant de passer à l'itération suivante
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void reset() {
@@ -80,7 +107,7 @@ public class Game {
         StringBuilder result = new StringBuilder();
         result.append(board + "\n");
         result.append("Tour n°" + turn + "\n");
-        result.append("Tour de " + currentPlayer.getName() + "\n");
+        result.append("Tour de " + currentPlayer.getColor() + currentPlayer.getName() + Style.RESET + "\n");
 
         return result.toString();
     }

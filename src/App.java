@@ -77,7 +77,11 @@ public class App {
 
         game.setBoard(new Board(7, 6));
         game.getBoard().initBoard();
-        game.display();
+        game.setPlayingStatus(true);
+
+        while (game.isPlaying()) {
+            playGame(game);
+        }
     }
 
     public static void selectPlayerNameOption(Player player) {
@@ -139,6 +143,33 @@ public class App {
             }
         }
     }
+     
+    public static void selectPlayerColumnOption(Game game) {
+        while (true) {
+            game.display();
+            Menu.displayPlayMenu();
+
+            String input = getUserInput();
+            int column = Integer.parseInt(input);
+            column--;
+
+            if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
+                if (game.getBoard().isColumnFull(column)) {
+                    Menu.printError("La colonne est pleine !");
+                } else {
+                    game.play(column);
+                    return;
+                }
+            } else {
+                Menu.printError("Colonne invalide !");
+            }
+        }
+    }
+
+    public static void playGame(Game game) {
+        selectPlayerColumnOption(game);
+    }
+
     public static void entrerscores(Player player1, Player player2) throws IOException{
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/scores.csv", true)));
         if(VSIA==true){
@@ -148,9 +179,5 @@ public class App {
             pw.println(player1.getName()+" ; "+player2.getName()+" ; "+player1.getScore());
         }
         pw.close();
-    }
-
-    public static void afficherscores() throws IOException{
-        
     }
 }

@@ -38,37 +38,52 @@ public class Board {
     */
     public void initBoard() {
         board.clear();
-        for (int i = 0; i < width; i++) {
+        for (int row = 0; row < height; row++) {
             board.add(new ArrayList<Pawn>());
-            for (int j = 0; j < height; j++) {
-                board.get(i).add(new Pawn());
+            for (int col = 0; col < width; col++) {
+                board.get(row).add(new Pawn());
             }
         }
     }
 
-    /**
-    * Récupere la hauteur d'une colonne
-    */
-    public int getColumnHeight(int col) {
-        int height = 0;
-        for (int i = 0; i < this.height; i++) {
-            if (board.get(col).get(i).getPlayer() != null) {
-                height++;
+
+    public int getLowestEmptyCell(int col) {
+        int row = height - 1;
+
+        while (board.get(row).get(col).getPlayer() != null) {
+            row--;
+            if (row < 0) {
+                return -1
             }
         }
-        return height;
+        return row;
     }
 
     /**
     * vérifie si le tableau est plein
     */
     public boolean isFull() {
+        int[] fullColumns = getFullColumns();
+        return fullColumns.length == width;
+    }
+
+    public boolean isColumnFull(int col) {
+        if (getLowestEmptyCell(col) < 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public int[] getFullColumns() {
+        int[] fullColumns = new int[width];
+        int index = 0;
         for (int i = 0; i < width; i++) {
-            if (getColumnHeight(i) < height) {
-                return false;
+            if (isColumnFull(i)) {
+                fullColumns[index] = i;
+                index++;
             }
         }
-        return true;
+        return fullColumns;
     }
 
     /**
@@ -85,46 +100,44 @@ public class Board {
         return height;
     }
 
-    /**
-    * représente une chaine de charctere sur la case donnée en X/Y
-    */
-    public String getCellToString(int x, int y) {
+    public String getCellToString(int col, int row) {
         StringBuilder result = new StringBuilder();
         result.append("| ");
-        if (board.get(x).get(y).getPlayer() == null) {
+        if (board.get(row).get(col).getPlayer() == null) {
             result.append(" ");
         } else {
-            result.append(board.get(x).get(y).getPlayer().getSymbol());
-       
+            result.append(board.get(row).get(col).getPlayer().getColor());
+            result.append(board.get(row).get(col).getPlayer().getSymbol());
+            result.append(Style.RESET);
         }
         result.append(" ");
         return result.toString();
     }
 
-    /**
-    * Récupère une représentation de la ligne aux coordonées Y données
-    */
-    public String getRowToString(int y) {
+
+    public String getRowToString(int row) {
         StringBuilder result = new StringBuilder();
         for (int col = 0; col < width; col++) {
-            y /= 2;
-            result.append(getCellToString(col, y));
+            result.append(getCellToString(col, row));
         }
         result.append("|");
         return result.toString();
     }
 
-    /**
-    * Affiche une représentation du tableau
-    */
+
+    public void setCell(int col, int row, Player player) {
+        board.get(row).get(col).setPlayer(player);
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("  1   2   3   4   5   6   7\n");
-        for (int i = 0; i < height * 2 - 1; i++) {
-            if (i % 2 == 0) {
-                String row = getRowToString(i);
-                result.append(row);
+        for (int row = 0; row < height * 2 - 1; row++) {
+            if (row % 2 == 0) {
+                int rowNumber = row / 2;
+                String rowString = getRowToString(rowNumber);
+                result.append(rowString);
             } else {
                 result.append("|---+---+---+---+---+---+---|");
             }
