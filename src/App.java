@@ -1,6 +1,7 @@
 import model.Style;
 import model.Game;
 import model.Player;
+import model.IA;
 import model.Board;
 import model.Menu;
 
@@ -26,7 +27,7 @@ public class App {
             String input = getUserInput();
             switch (input) {
                 case "1":
-                    System.out.println("1");
+                    initSingleplayerGame();
                     return;
                 case "2":
                     initMultiplayerGame();
@@ -42,6 +43,29 @@ public class App {
                     break;
             }
         }
+    }
+
+    public static void initSingleplayerGame() {
+        Player player1 = new Player();
+        player1.setNumber(1);
+
+        Player player2 = new IA(4);
+        player2.setNumber(2);
+
+        selectPlayerNameOption(player1);
+        selectColorOption(player1);
+        selectSymbolOption(player1, player2);
+
+        selectPlayerNameOption(player2);
+        selectColorOption(player2);
+
+        Game game = new Game(player1, player2);
+
+        game.setBoard(new Board(7, 6));
+        game.getBoard().initBoard();
+        game.setPlayingStatus(true);
+
+        playGame(game);
     }
 
     public static void initMultiplayerGame() {
@@ -153,7 +177,11 @@ public class App {
 
     public static void playGame(Game game) {
         while (game.isPlaying()) {
-            selectPlayerColumnOption(game);
+            if (game.getCurrentPlayer() instanceof IA) {
+                ((IA) game.getCurrentPlayer()).play(game);
+            } else {
+                selectPlayerColumnOption(game);
+            }
         }
 
         if (game.getWinner() != null) {

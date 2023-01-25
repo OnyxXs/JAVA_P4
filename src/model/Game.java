@@ -130,7 +130,6 @@ public class Game {
                         int[] position = { col, row };
                         winningPositions.add(position);
                     }
-
                     // On remet la case à null
                     board.setCell(col, row, null);
                 }
