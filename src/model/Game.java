@@ -202,17 +202,6 @@ public class Game {
         return false;
     }
 
-    public boolean isPlayingInWinningPosition(int col, int row) {
-        ArrayList<int[]> winningPositions = getWinningPositions(currentPlayer);
-
-        for (int[] position : winningPositions) {
-            if (position[0] == col && position[1] == row) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void reset() {
         board.reset();
         currentPlayer = player1;
