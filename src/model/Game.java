@@ -7,6 +7,7 @@ public class Game {
     private Player player1;
     private Player player2;
     private Player currentPlayer;
+    private Player winner;
     private Board board;
     private int turn = 1;
     private boolean isPlaying = false;
@@ -32,6 +33,14 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 
     public Board getBoard() {
@@ -76,7 +85,8 @@ public class Game {
         placePawn(col, row);
 
         if (checkVictory(col, row, currentPlayer)) {
-            System.out.println("Victoire de " + currentPlayer.getName());
+            // System.out.println("Victoire de " + currentPlayer.getName());
+            winner = currentPlayer;
             isPlaying = false;
             return;
         } else if (board.isFull()) {
@@ -112,16 +122,16 @@ public class Game {
         for (int row = 0; row < board.getHeight(); row++) {
             for (int col = 0; col < board.getWidth(); col++) {
                 if (board.getCell(col, row) == null) {
-                    // temporarily place a pawn at this position
+                    // Place un pion temporairement pour vérifier si le coup est gagnant
                     board.setCell(col, row, player);
 
-                    // check if this move results in a win
+                    // Si le coup est gagnant, on ajoute les coordonnées du coup gagnant à la liste
                     if (checkVictory(col, row, player)) {
                         int[] position = { col, row };
                         winningPositions.add(position);
                     }
 
-                    // remove the temporarily placed pawn
+                    // On remet la case à null
                     board.setCell(col, row, null);
                 }
             }

@@ -64,9 +64,7 @@ public class App {
         game.getBoard().initBoard();
         game.setPlayingStatus(true);
 
-        while (game.isPlaying()) {
-            playGame(game);
-        }
+        playGame(game);
     }
 
     public static void selectPlayerNameOption(Player player) {
@@ -154,6 +152,14 @@ public class App {
     }
 
     public static void playGame(Game game) {
-        selectPlayerColumnOption(game);
+        while (game.isPlaying()) {
+            selectPlayerColumnOption(game);
+        }
+
+        if (game.getWinner() != null) {
+            System.out.println("Le gagnant est " + game.getWinner().getName() + " !");
+        } else {
+            System.out.println("Match nul !");
+        }
     }
 }
