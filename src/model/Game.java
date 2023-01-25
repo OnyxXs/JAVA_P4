@@ -7,7 +7,7 @@ public class Game {
     private Player player2;
     private Player currentPlayer;
     private Board board;
-    private int turn = 1;
+    private static int turn = 1;
     private boolean isPlaying = false;
 
     public Game(Player player1, Player player2) {

@@ -8,7 +8,7 @@ public class IA {
     /**
     * difficulté de l'IA
     */
-    private int difficulty;
+    private static int difficulty;
 
     /**
     * Crée une IA avec le niveau de difficulté donné
@@ -20,7 +20,7 @@ public class IA {
     /**
     * Récupère le niveau de difficulté d'une IA
     */
-    public int getDifficulty() {
+    public static int getDifficulty() {
         return difficulty;
     }
 
