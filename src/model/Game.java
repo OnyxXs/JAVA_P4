@@ -84,9 +84,7 @@ public class Game {
             }
             board.setCell(col, row, currentPlayer);
 
-            if (row != LowestEmptyCell) {
-                System.out.println(board.toString());
-            }
+            System.out.println(board.toString());
 
             try {
                 Thread.sleep(200); // Attends x ms avant de passer à l'itération suivante
