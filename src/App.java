@@ -7,7 +7,6 @@ import model.Menu;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -47,7 +46,6 @@ public class App {
                     initMultiplayerGame();
                     return;
                 case "3":
-                    System.out.println("3");
                     afficherscores();
                     return;
                 case "4":

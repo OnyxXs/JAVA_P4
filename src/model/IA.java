@@ -14,7 +14,7 @@ public class IA {
     * Crée une IA avec le niveau de difficulté donné
     */
     public IA(int difficulty) {
-        this.difficulty = difficulty;
+        IA.difficulty = difficulty;
     }
 
     /**
@@ -28,6 +28,6 @@ public class IA {
     * Choisi/modifie le niveau de difficulté de l'IA
     */
     public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
+        IA.difficulty = difficulty;
     }
 }
