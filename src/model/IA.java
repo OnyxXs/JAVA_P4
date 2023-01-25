@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class IA extends Player {
     private int difficulty;
+    private ArrayList<Integer> losCols = new ArrayList<Integer>(); // Colonnes qui ferait perdre l'IA
 
     public IA(int difficulty) {
         this.difficulty = difficulty;
@@ -18,9 +19,6 @@ public class IA extends Player {
     }
 
     public void play(Game game) {
-        ArrayList<int[]> winPositions = game.getWinningPositions(game.getCurrentPlayer());
-        ArrayList<int[]> playerWinPositions = game.getWinningPositions(game.getPlayer1());
-
         int columnToPlay = 1;
 
         switch (difficulty) {
@@ -42,38 +40,40 @@ public class IA extends Player {
     }
 
     public int playRandomly(Game game, boolean playIntelligently) {
-
         while (true) {
-            int columnToPlay = (int) (Math.random() * game.getBoard().getWidth());
-            if (!game.getBoard().isColumnFull(columnToPlay)) {
-                // if (!playIntelligently) {
-                // return columnToPlay;
-                // }
+            int randCol = (int) (Math.random() * game.getBoard().getWidth());
+            if (!game.getBoard().isColumnFull(randCol)) {
+                // Si le mode intelligent est désactivé, on retourne la colonne aléatoire
+                if (!playIntelligently) {
+                    return randCol;
+                }
 
-                // ArrayList<int[]> playerWinPositions =
-                // game.getWinningPositions(game.getPlayer1());
-                // for (int[] pWinPos : playerWinPositions) {
-                // int winX = pWinPos[0];
-                // int winY = pWinPos[1];
+                // Si toutes les cases vides sont des colonnes qui ferait perdre l'IA, on
+                // désactive le mode intelligent
+                if (losCols.size() == game.getBoard().getFreeColumnNumber()) {
+                    return playRandomly(game, false);
+                }
 
-                // int lowestEmpty = game.getBoard().getLowestEmptyCell(winX);
+                // Si la colonne aléatoire n'est pas une colonne qui ferait perdre l'IA
+                boolean canPlace = true;
+                if (!losCols.contains(randCol)) {
+                    ArrayList<int[]> pWinPoses = game.getWinningPositions(game.getPlayer1());
+                    // positions gagnantes du joueur
 
-                // int freeColNumber = game.getBoard().getWidth() -
-                // game.getBoard().getFullColumns().length;
+                    for (int[] pWinPos : pWinPoses) {
+                        int winX = pWinPos[0];
+                        int winY = pWinPos[1];
+                        int lowestEmpty = game.getBoard().getLowestEmptyCell(winX);
 
-                // ArrayList<Integer> losingCols = new ArrayList<Integer>();
-                // if (winY + 1 == game.getBoard().getLowestEmptyCell(winX)) {
-                // losingCols.add(winX);
-                // }
-
-                // for (int losCol : losingCols) {
-                // if (losCol == columnToPlay) {
-                // return playRandomly(game, false);
-                // }
-                // }
-                // return columnToPlay;
-                // }
-                return columnToPlay;
+                        if (winX == randCol && lowestEmpty == winY + 1) {
+                            losCols.add(winX);
+                            canPlace = false;
+                        }
+                    }
+                    if (canPlace) {
+                        return randCol;
+                    }
+                }
             }
         }
     }
@@ -96,6 +96,7 @@ public class IA extends Player {
     }
 
     public int playIntelligently(Game game) {
+        losCols.clear();
         return playDefensively(game, true);
     }
 

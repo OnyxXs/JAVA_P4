@@ -61,7 +61,6 @@ public class Game {
 
     public void switchPlayer() {
         if (currentPlayer.equals(player1)) {
-            Menu.printError("Your mom !");
             currentPlayer = player2;
         } else {
             currentPlayer = player1;
