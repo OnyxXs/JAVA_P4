@@ -28,7 +28,7 @@ public class App {
             switch (input) {
                 case "1":
                     initSingleplayerGame();
-                    return;
+                    break;
                 case "2":
                     initMultiplayerGame();
                     break;
@@ -56,7 +56,7 @@ public class App {
         selectColorOption(player1);
         selectSymbolOption(player1, player2);
 
-        selectPlayerNameOption(player2);
+        player2.setName("IA");
         selectColorOption(player2);
 
         Game game = new Game(player1, player2);
@@ -159,18 +159,30 @@ public class App {
             Menu.displayPlayMenu();
 
             String input = getUserInput();
-            int column = Integer.parseInt(input);
-            column--;
+            try {
+                int column = Integer.parseInt(input);
+                column--;
 
-            if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
-                if (game.getBoard().isColumnFull(column)) {
-                    Menu.printError("La colonne est pleine !");
+                if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
+                    if (game.getBoard().isColumnFull(column)) {
+                        Menu.printError("La colonne est pleine !");
+                    } else {
+                        game.play(column);
+                        return;
+                    }
                 } else {
-                    game.play(column);
-                    return;
+                    Exception e = new Exception("invalid column");
+                    throw e;
                 }
-            } else {
-                Menu.printError("Colonne invalide !");
+            } catch (Exception e) {
+                if (input.equals("q")) {
+                    Menu.printError("Retour au menu principal...");
+                    game.setPlayingStatus(false);
+                    return;
+
+                } else {
+                    Menu.printError("Colonne invalide !");
+                }
             }
         }
     }

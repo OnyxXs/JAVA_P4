@@ -60,7 +60,8 @@ public class Game {
     }
 
     public void switchPlayer() {
-        if (currentPlayer == player1) {
+        if (currentPlayer.equals(player1)) {
+            Menu.printError("Your mom !");
             currentPlayer = player2;
         } else {
             currentPlayer = player1;
@@ -85,12 +86,10 @@ public class Game {
         placePawn(col, row);
 
         if (checkVictory(col, row, currentPlayer)) {
-            // System.out.println("Victoire de " + currentPlayer.getName());
             winner = currentPlayer;
             isPlaying = false;
             return;
         } else if (board.isFull()) {
-            System.out.println("Match nul");
             isPlaying = false;
             return;
         }
@@ -121,13 +120,14 @@ public class Game {
 
         for (int row = 0; row < board.getHeight(); row++) {
             for (int col = 0; col < board.getWidth(); col++) {
-                if (board.getCell(col, row) == null) {
+                if (board.getCell(col, row).getPlayer() == null) {
+                    // System.out.println("test X = " + col + ", Y = " + row + "\n");
                     // Place un pion temporairement pour vérifier si le coup est gagnant
                     board.setCell(col, row, player);
 
                     // Si le coup est gagnant, on ajoute les coordonnées du coup gagnant à la liste
                     if (checkVictory(col, row, player)) {
-                        int[] position = { col, row };
+                        int[] position = new int[] { col, row };
                         winningPositions.add(position);
                     }
                     // On remet la case à null

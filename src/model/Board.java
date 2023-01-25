@@ -38,28 +38,26 @@ public class Board {
     }
 
     public boolean isFull() {
-        for (int col = 0; col < width; col++) {
-            if (!isColumnFull(col)) {
-                return false;
-            }
-        }
-        return true;
+        return getFullColumns().size() >= width;
     }
 
     public boolean isColumnFull(int col) {
         return board.get(0).get(col).getPlayer() != null;
     }
 
-    public int[] getFullColumns() {
-        int[] result = new int[width];
-        int count = 0;
+    public ArrayList<Integer> getFullColumns() {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+
         for (int col = 0; col < width; col++) {
             if (isColumnFull(col)) {
-                result[count] = col;
-                count++;
+                result.add(col);
             }
         }
         return result;
+    }
+
+    public int getFreeColumnNumber() {
+        return width - getFullColumns().size();
     }
 
     public int getWidth() {
