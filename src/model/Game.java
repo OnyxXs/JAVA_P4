@@ -97,6 +97,10 @@ public class Game {
         }
     }
 
+    public static int getScore() {
+        return turn;
+    }
+
     public void reset() {
         board.initBoard();
         currentPlayer = player1;

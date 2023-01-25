@@ -173,10 +173,10 @@ public class App {
     public static void entrerscores(Player player1, Player player2) throws IOException{
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/scores.csv", true)));
         if(VSIA==true){
-            pw.println(player1.getName()+" ; "+player1.getScore()+" ; IA niveau "+player2.getDifficulty());
+            pw.println(player1.getName()+" ; "+Game.getScore()+" ; IA niveau "+player2.getDifficulty());
         }
         else{
-            pw.println(player1.getName()+" ; "+player2.getName()+" ; "+player1.getScore());
+            pw.println(player1.getName()+" ; "+player2.getName()+" ; "+Game.getScore());
         }
         pw.close();
     }
