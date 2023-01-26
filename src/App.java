@@ -27,6 +27,7 @@ public class App {
             String input = getUserInput();
             switch (input) {
                 case "1":
+                    // initSingleplayerGame(1);
                     initSingleplayerGame();
                     break;
                 case "2":
@@ -49,7 +50,9 @@ public class App {
         Player player1 = new Player();
         player1.setNumber(1);
 
-        Player player2 = new IA(4);
+        int AIdiff = selectAIDifficulty();
+
+        Player player2 = new IA(AIdiff);
         player2.setNumber(2);
 
         selectPlayerNameOption(player1);
@@ -183,6 +186,25 @@ public class App {
                 } else {
                     Menu.printError("Colonne invalide !");
                 }
+            }
+        }
+    }
+
+    public static int selectAIDifficulty() {
+        while (true) {
+            Menu.displayAIDifficultyMenu();
+
+            String input = getUserInput();
+            try {
+                int difficulty = Integer.parseInt(input);
+                if (difficulty >= 1 && difficulty <= 4) {
+                    return difficulty;
+                } else {
+                    Exception e = new Exception("invalid difficulty");
+                    throw e;
+                }
+            } catch (Exception e) {
+                Menu.printError("Difficulté invalide !");
             }
         }
     }

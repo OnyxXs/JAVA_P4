@@ -40,6 +40,16 @@ public class Menu {
         printMenuOptions(options.toString());
     }
 
+    public static void displayAIDifficultyMenu() {
+        printMenuTitle("Choix de la difficulté");
+        StringBuilder options = new StringBuilder();
+        options.append("1. Facile\n");
+        options.append("2. Moyen\n");
+        options.append("3. Difficile\n");
+        options.append("4. Pro");
+        printMenuOptions(options.toString());
+    }
+
     public static void displayPlayMenu() {
         printInputQuery("Entrez le numéro de la colonne sur laquelle jouer :");
     }
