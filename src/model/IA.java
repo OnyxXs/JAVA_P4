@@ -91,7 +91,6 @@ public class IA extends Player {
             }
         }
 
-        // return playIntelligently(game);
         return playIntelligently(game);
     }
 

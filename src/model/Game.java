@@ -169,6 +169,10 @@ public class Game {
             } else {
                 winPawns.clear();
             }
+            // if (test(checkCol, row, player, winPawns)) {
+            // return true;
+            // }
+
         }
         return false;
     }
@@ -192,6 +196,9 @@ public class Game {
             } else {
                 winPawns.clear();
             }
+            // if (test(col, checkRow, player, winPawns)) {
+            // return true;
+            // }
         }
         return false;
     }
@@ -218,6 +225,9 @@ public class Game {
             } else {
                 winPawns.clear();
             }
+            // if (test(checkCol, checkRow, player, winPawns)) {
+            // return true;
+            // }
         }
         return false;
     }
@@ -244,6 +254,26 @@ public class Game {
             } else {
                 winPawns.clear();
             }
+            // if (test(checkCol, checkRow, player, winPawns)) {
+            // return true;
+            // }
+        }
+        return false;
+    }
+
+    public boolean test(int col, int row, Player player, ArrayList<Pawn> winPawns) {
+        Pawn pawn = board.getCell(col, row);
+        // Si le pion n'est pas vide et qu'il appartient au joueur sélectionné
+        if (pawn != null && pawn.getPlayer() == player) {
+            winPawns.add(pawn);
+            if (winPawns.size() >= 4) {
+                if (WIN_PAWNS.size() < 4)
+                    WIN_PAWNS.addAll(winPawns);
+
+                return true;
+            }
+        } else {
+            winPawns.clear();
         }
         return false;
     }
