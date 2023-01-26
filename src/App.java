@@ -263,4 +263,43 @@ public class App {
     public static void playGame(Game game) {
         selectPlayerColumnOption(game);
     }
+
+/**
+    * Cette méthode permet d'entrer les scores dans "scores.csv"
+    * Si le mode de jeu est contre l'IA, seul le nom du joueur et le score sont enregistrés ainsi que le niveau de difficulté de l'IA
+    * Sinon, les noms des deux joueurs et le score final sont enregistrés.
+    */
+public static void entrerscores(Player player1, Player player2) throws IOException{
+    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/scores.csv", true)));
+    if(VSIA==true){
+        pw.println(player1.getName()+" ; "+Game.getScore()+" ; IA niveau "+IA.getDifficulty());
+    }
+    else{
+        pw.println(player1.getName()+" ; "+player2.getName()+" ; "+Game.getScore());
+}
+    pw.close();
+}
+/**
+    * lis le fichier "scores.csv" qui contiens les scores de la partie précedente
+    * trie les scores par les troisiemes elements de la ligne qui représente le score
+    * affiche le score dans l'ordre trié
+    */
+    public static void afficherscores() throws IOException{
+        List<String> scores = new ArrayList<String>();
+        BufferedReader br = new BufferedReader(new FileReader("src/scores.csv"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            scores.add(line);
+        }
+        br.close();
+        Collections.sort(scores, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.parseInt(o1.split(" ; ")[2]) - Integer.parseInt(o2.split(" ; ")[2]);
+            }
+        });
+        scores.sort(Comparator.comparingInt(o -> Integer.parseInt(o.split(" ; ")[2])));
+        for (String score : scores) {
+            System.out.println(score);
+        }
 }
