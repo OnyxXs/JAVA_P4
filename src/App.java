@@ -52,7 +52,7 @@ public class App {
 
         int AIdiff = selectAIDifficulty();
 
-        Player player2 = new IA(4);
+        Player player2 = new IA(AIdiff);
         player2.setNumber(2);
 
         selectPlayerNameOption(player1);

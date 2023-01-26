@@ -7,6 +7,7 @@ public class Game {
     private Player player1;
     private Player player2;
     private Player currentPlayer;
+    private Player opponent;
     private Player winner;
     private Board board;
     private int turn = 1;
@@ -19,6 +20,7 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         this.currentPlayer = player1;
+        this.opponent = player2;
     }
 
     public void display() {
@@ -36,6 +38,10 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public Player getOpponent() {
+        return opponent;
     }
 
     public Player getWinner() {
@@ -65,8 +71,10 @@ public class Game {
     public void switchPlayer() {
         if (currentPlayer.equals(player1)) {
             currentPlayer = player2;
+            opponent = player1;
         } else {
             currentPlayer = player1;
+            opponent = player2;
             turn++;
         }
     }
@@ -137,6 +145,25 @@ public class Game {
         }
 
         return winningPositions;
+    }
+
+    public ArrayList<Integer> getPlayerWinningColumns(Player player) {
+        ArrayList<Integer> winCols = new ArrayList<Integer>();
+        ArrayList<int[]> winPoses = getPlayerWinningPositions(player);
+
+        for (int[] pos : winPoses) {
+            int winX = pos[0];
+            int winY = pos[1];
+
+            if (!winCols.contains(winX)) {
+                int LowestEmptyCell = board.getLowestEmptyCell(winX);
+                if (winY == LowestEmptyCell) {
+                    winCols.add(winX);
+                }
+            }
+        }
+
+        return winCols;
     }
 
     public boolean checkVictory(int col, int row, Player player) {
@@ -278,10 +305,10 @@ public class Game {
         return false;
     }
 
-    public void reset() {
-        board.reset();
-        currentPlayer = player1;
-    }
+    // public void reset() {
+    // board.reset();
+    // currentPlayer = player1;
+    // }
 
     @Override
     public String toString() {

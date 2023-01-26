@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class IA extends Player {
     private int difficulty;
-    private ArrayList<Integer> losCols = new ArrayList<Integer>(); // Colonnes qui ferait perdre l'IA
 
     public IA(int difficulty) {
         this.difficulty = difficulty;
@@ -48,70 +47,56 @@ public class IA extends Player {
                     return randCol;
                 }
 
-                // Si toutes les cases vides sont des colonnes qui ferait perdre l'IA, on
-                // désactive le mode intelligent
-                if (losCols.size() == game.getBoard().getFreeColumnNumber()) {
+                // Vérifie si il est reste des colonnes non perdantes libre pour l'IA
+                ArrayList<Integer> AIlosCols = getAILosingColumns(game);
+                if (AIlosCols.size() >= game.getBoard().getFreeColumnNumber()) {
                     return playRandomly(game, false);
                 }
 
-                // Si la colonne aléatoire n'est pas une colonne qui ferait perdre l'IA
-                boolean canPlace = true;
-                if (!losCols.contains(randCol)) {
-                    ArrayList<int[]> pWinPoses = game.getPlayerWinningPositions(game.getPlayer1());
-                    // positions gagnantes du joueur
-
-                    for (int[] pWinPos : pWinPoses) {
-                        int winX = pWinPos[0];
-                        int winY = pWinPos[1];
-                        int lowestEmpty = game.getBoard().getLowestEmptyCell(winX);
-
-                        if (winX == randCol && lowestEmpty == winY + 1) {
-                            losCols.add(winX);
-                            canPlace = false;
-                        }
-                    }
-                    if (canPlace) {
-                        return randCol;
-                    }
+                // Vérifie si la colonne aléatoire n'est pas une colonne perdante pour l'IA
+                if (!AIlosCols.contains(randCol)) {
+                    return randCol;
                 }
             }
         }
     }
 
     public int playOffensively(Game game) {
-        ArrayList<int[]> winningPositions = game.getPlayerWinningPositions(game.getCurrentPlayer());
-        for (int[] winningPosition : winningPositions) {
-            int winX = winningPosition[0];
-            int winY = winningPosition[1];
-
-            int lowestEmpty = game.getBoard().getLowestEmptyCell(winX);
-
-            if (lowestEmpty == winY) {
-                return winX;
-            }
+        ArrayList<Integer> winPoses = game.getPlayerWinningColumns(game.getCurrentPlayer());
+        if (winPoses.size() > 0) {
+            return winPoses.get(0);
         }
 
         return playIntelligently(game);
     }
 
     public int playIntelligently(Game game) {
-        losCols.clear();
         return playDefensively(game, true);
     }
 
     public int playDefensively(Game game, boolean playIntelligently) {
-        ArrayList<int[]> playerWinPositions = game.getPlayerWinningPositions(game.getPlayer1());
-        for (int[] pWinPos : playerWinPositions) {
-            int winX = pWinPos[0];
-            int winY = pWinPos[1];
-
-            int lowestEmpty = game.getBoard().getLowestEmptyCell(winX);
-
-            if (lowestEmpty == winY) {
-                return winX;
-            }
+        ArrayList<Integer> oppWinCols = game.getPlayerWinningColumns(game.getOpponent());
+        if (oppWinCols.size() > 0) {
+            return oppWinCols.get(0);
         }
 
         return playRandomly(game, playIntelligently);
+    }
+
+    public ArrayList<Integer> getAILosingColumns(Game game) {
+        ArrayList<int[]> oppWinPoses = game.getPlayerWinningPositions(game.getOpponent());
+        ArrayList<Integer> losCols = new ArrayList<Integer>();
+
+        for (int[] oppWinPos : oppWinPoses) {
+            int winX = oppWinPos[0];
+            int winY = oppWinPos[1];
+            int lowestEmpty = game.getBoard().getLowestEmptyCell(winX);
+
+            if (lowestEmpty == winY + 1) {
+                losCols.add(winX);
+            }
+        }
+
+        return losCols;
     }
 }
