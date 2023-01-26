@@ -1,6 +1,7 @@
 import model.Style;
 import model.Game;
 import model.Player;
+import model.Score;
 import model.IA;
 import model.Board;
 import model.Menu;
@@ -34,7 +35,7 @@ public class App {
                     initMultiplayerGame();
                     break;
                 case "3":
-                    System.out.println("3");
+                    Score.displayLeaderboard();
                     return;
                 case "4":
                     Menu.printError("Fermeture du programme...");

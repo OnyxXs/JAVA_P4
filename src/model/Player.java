@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class Player {
+    private static final String NAME_PATTERN = "^[a-zA-Z]+(([\\'\\,\\.\\-][a-zA-Z])?[a-zA-Z]*)*$";
+
     private String name;
     private String color;
     private char symbol;
