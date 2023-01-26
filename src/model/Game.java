@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 
 public class Game {
+    private static final String WIN_COLOR = Style.PURPLE;
+    private static final ArrayList<Pawn> WINNING_PAWNS = new ArrayList<Pawn>();
+    // Liste des pions 4 pions alignés gagnants
 
     private Player player1;
     private Player player2;
@@ -12,10 +15,6 @@ public class Game {
     private Board board;
     private int turn = 1;
     private boolean isPlaying = false;
-
-    private static final String WIN_COLOR = Style.PURPLE;
-    private static final ArrayList<Pawn> WINNING_PAWNS = new ArrayList<Pawn>();
-    // Liste des pions 4 pions alignés gagnants
 
     public Game(Player player1, Player player2) {
         this.player1 = player1;
@@ -92,30 +91,15 @@ public class Game {
             winner = currentPlayer;
 
             Player winPlayer = new Player();
-            winPlayer.setColor(Style.GREEN);
+            winPlayer.setColor(WIN_COLOR);
             winPlayer.setSymbol(currentPlayer.getSymbol());
 
-            int changedPawn = 0;
-            for (Pawn pawn : winningPawns) {
+            for (Pawn pawn : WINNING_PAWNS) {
                 pawn.setPlayer(winPlayer);
-                changedPawn++;
-                if (changedPawn == 4) {
-                    break;
-                }
             }
             System.out.println(board.toString());
 
             isPlaying = false;
-
-            for (Pawn pawn : WINNING_PAWNS) {
-                Player winPlayer = new Player();
-                winPlayer.setColor(WIN_COLOR);
-                winPlayer.setSymbol(pawn.getPlayer().getSymbol());
-
-                pawn.setPlayer(winPlayer);
-            }
-            System.out.println(board.toString());
-
             return;
         } else if (board.isFull()) {
             isPlaying = false;
@@ -214,9 +198,6 @@ public class Game {
             }
 
         }
-        if (winningPawns.size() < 4) {
-            winningPawns.clear();
-        }
         return false;
     }
 
@@ -229,9 +210,6 @@ public class Game {
             if (getFourLinedPawns(col, checkRow, player, winPawns)) {
                 return true;
             }
-        }
-        if (winningPawns.size() < 4) {
-            winningPawns.clear();
         }
         return false;
     }
@@ -249,9 +227,6 @@ public class Game {
                 return true;
             }
         }
-        if (winningPawns.size() < 4) {
-            winningPawns.clear();
-        }
         return false;
     }
 
@@ -267,9 +242,6 @@ public class Game {
             if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
                 return true;
             }
-        }
-        if (winningPawns.size() < 4) {
-            winningPawns.clear();
         }
         return false;
     }

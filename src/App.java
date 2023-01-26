@@ -222,6 +222,8 @@ public class App {
         }
 
         endGame(game);
+
+        askForRestart();
     }
 
     public static void endGame(Game game) {
@@ -257,5 +259,24 @@ public class App {
         }
         System.out.println("Vous êtes entrés dans le top 10 ! Vous êtes à la " + position
                 + positionSuffix + " place du classement !");
+    }
+
+    public static void askForRestart(Game game) {
+        while (true) {
+            // Menu.displayRestartPrompt();
+
+            String input = getUserInput();
+            switch (input) {
+                case "1":
+                    playGame(game);
+                    return;
+                case "2":
+                    Menu.printError("Retour au menu principal...");
+                    return;
+                default:
+                    Menu.printError("Option invalide !");
+                    break;
+            }
+        }
     }
 }
