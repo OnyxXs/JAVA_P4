@@ -12,6 +12,8 @@ public class Game {
     private int turn = 1;
     private boolean isPlaying = false;
 
+    public static ArrayList<Pawn> winningPawns = new ArrayList<Pawn>();
+
     public Game(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
@@ -86,6 +88,21 @@ public class Game {
 
         if (checkVictory(col, row, currentPlayer)) {
             winner = currentPlayer;
+
+            Player winPlayer = new Player();
+            winPlayer.setColor(Style.GREEN);
+            winPlayer.setSymbol(currentPlayer.getSymbol());
+
+            int changedPawn = 0;
+            for (Pawn pawn : winningPawns) {
+                pawn.setPlayer(winPlayer);
+                changedPawn++;
+                if (changedPawn == 4) {
+                    break;
+                }
+            }
+            System.out.println(board.toString());
+
             isPlaying = false;
             return;
         } else if (board.isFull()) {
@@ -156,12 +173,19 @@ public class Game {
             Pawn pawn = board.getCell(checkCol, row);
             if (pawn != null && pawn.getPlayer() == player) {
                 count++;
+                winningPawns.add(pawn);
                 if (count >= 4) {
                     return true;
                 }
             } else {
                 count = 0;
+                if (winningPawns.size() < 4) {
+                    winningPawns.clear();
+                }
             }
+        }
+        if (winningPawns.size() < 4) {
+            winningPawns.clear();
         }
         return false;
     }
@@ -175,12 +199,19 @@ public class Game {
             Pawn pawn = board.getCell(col, checkRow);
             if (pawn != null && pawn.getPlayer() == player) {
                 count++;
+                winningPawns.add(pawn);
                 if (count >= 4) {
                     return true;
                 }
             } else {
                 count = 0;
+                if (winningPawns.size() < 4) {
+                    winningPawns.clear();
+                }
             }
+        }
+        if (winningPawns.size() < 4) {
+            winningPawns.clear();
         }
         return false;
     }
@@ -197,12 +228,19 @@ public class Game {
             Pawn pawn = board.getCell(checkCol, checkRow);
             if (pawn != null && pawn.getPlayer() == player) {
                 count++;
+                winningPawns.add(pawn);
                 if (count >= 4) {
                     return true;
                 }
             } else {
                 count = 0;
+                if (winningPawns.size() < 4) {
+                    winningPawns.clear();
+                }
             }
+        }
+        if (winningPawns.size() < 4) {
+            winningPawns.clear();
         }
         return false;
     }
@@ -219,12 +257,19 @@ public class Game {
             Pawn pawn = board.getCell(checkCol, checkRow);
             if (pawn != null && pawn.getPlayer() == player) {
                 count++;
+                winningPawns.add(pawn);
                 if (count >= 4) {
                     return true;
                 }
             } else {
                 count = 0;
+                if (winningPawns.size() < 4) {
+                    winningPawns.clear();
+                }
             }
+        }
+        if (winningPawns.size() < 4) {
+            winningPawns.clear();
         }
         return false;
     }
