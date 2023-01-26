@@ -267,18 +267,6 @@ public class Game {
         return false;
     }
 
-    public boolean checkLinedPawnsFromTo(int colStart, int colEnd, int rowStart, int rowEnd, Player player) {
-        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
-        for (int checkCol = colStart, checkRow = rowStart; checkCol <= colEnd
-                && checkRow <= rowStart; checkCol++, checkRow++) {
-
-            if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
