@@ -248,17 +248,20 @@ public class Game {
 
         // Si le pion n'est pas vide et qu'il appartient au joueur sélectionné
         if (pawn != null && pawn.getPlayer() == player) {
-            System.out.println("miam");
+            // Ajoute le pion à la liste des pions alignés
             winPawns.add(pawn);
+
+            // Si la liste des pions alignés contient 4 pions
             if (winPawns.size() >= 4) {
                 if (WINNING_PAWNS.size() < 4)
+                    // Ajoute les pions alignés à la liste des pions gagnants
                     WINNING_PAWNS.addAll(winPawns);
 
                 return true;
             }
 
-            // Sinon réinitialise la liste des pions alignés
         } else {
+            // Sinon réinitialise la liste des pions alignés
             winPawns.clear();
         }
         return false;
