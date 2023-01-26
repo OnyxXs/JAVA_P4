@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Map;
-
 public class Menu {
     public static void displayMainMenu() {
         System.out.println(Style.BACKGROUND_CYAN + Style.GREEN + "Menu principal" + Style.BACKGROUND_RESET);
@@ -39,6 +37,16 @@ public class Menu {
         StringBuilder options = new StringBuilder();
         options.append("1. @\n");
         options.append("2. =");
+        printMenuOptions(options.toString());
+    }
+
+    public static void displayAIDifficultyMenu() {
+        printMenuTitle("Choix de la difficulté");
+        StringBuilder options = new StringBuilder();
+        options.append("1. Facile\n");
+        options.append("2. Moyen\n");
+        options.append("3. Difficile\n");
+        options.append("4. Pro");
         printMenuOptions(options.toString());
     }
 

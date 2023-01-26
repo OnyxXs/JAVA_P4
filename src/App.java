@@ -1,6 +1,7 @@
 import model.Style;
 import model.Game;
 import model.Player;
+import model.Score;
 import model.IA;
 import model.Board;
 import model.Menu;
@@ -11,6 +12,8 @@ public class App {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
+        Score.csvToLeaderboard();
+
         SelectMainMenuOption();
     }
 
@@ -27,14 +30,15 @@ public class App {
             String input = getUserInput();
             switch (input) {
                 case "1":
+                    // initSingleplayerGame(1);
                     initSingleplayerGame();
                     break;
                 case "2":
                     initMultiplayerGame();
                     break;
                 case "3":
-                    System.out.println("3");
-                    return;
+                    Score.displayLeaderboard();
+                    break;
                 case "4":
                     Menu.printError("Fermeture du programme...");
                     return;
@@ -49,7 +53,9 @@ public class App {
         Player player1 = new Player();
         player1.setNumber(1);
 
-        Player player2 = new IA(4);
+        int AIdiff = selectAIDifficulty();
+
+        Player player2 = new IA(AIdiff);
         player2.setNumber(2);
 
         selectPlayerNameOption(player1);
@@ -187,6 +193,25 @@ public class App {
         }
     }
 
+    public static int selectAIDifficulty() {
+        while (true) {
+            Menu.displayAIDifficultyMenu();
+
+            String input = getUserInput();
+            try {
+                int difficulty = Integer.parseInt(input);
+                if (difficulty >= 1 && difficulty <= 4) {
+                    return difficulty;
+                } else {
+                    Exception e = new Exception("invalid difficulty");
+                    throw e;
+                }
+            } catch (Exception e) {
+                Menu.printError("Difficulté invalide !");
+            }
+        }
+    }
+
     public static void playGame(Game game) {
         while (game.isPlaying()) {
             if (game.getCurrentPlayer() instanceof IA) {
@@ -196,10 +221,41 @@ public class App {
             }
         }
 
+        endGame(game);
+    }
+
+    public static void endGame(Game game) {
         if (game.getWinner() != null) {
             System.out.println("Le gagnant est " + game.getWinner().getName() + " !");
+            if (!(game.getWinner() instanceof IA)) {
+                int worstLbScore = Score.getWorstLeaderboardScore();
+                int score = game.getTurn();
+
+                if (Score.leaderboard.size() < 10 || score < worstLbScore) {
+                    insertScoreInLeaderboard(game, score);
+                }
+            }
+
         } else {
             System.out.println("Match nul !");
         }
+    }
+
+    public static void insertScoreInLeaderboard(Game game, int score) {
+        Score highscore = new Score();
+        highscore.setName(game.getWinner().getName());
+        highscore.setScore(score);
+        highscore.setOpponentName(game.getOpponent().getName());
+
+        highscore.saveToLeaderboard();
+        Score.leaderboard.sort(null);
+        int position = Score.leaderboard.indexOf(highscore) + 1;
+
+        String positionSuffix = "ème";
+        if (position == 1) {
+            positionSuffix = "ère";
+        }
+        System.out.println("Vous êtes entrés dans le top 10 ! Vous êtes à la " + position
+                + positionSuffix + " place du classement !");
     }
 }
