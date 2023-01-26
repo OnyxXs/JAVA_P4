@@ -14,7 +14,8 @@ public class Game {
     private boolean isPlaying = false;
 
     private static final String WIN_COLOR = Style.PURPLE;
-    private static final ArrayList<Pawn> WIN_PAWNS = new ArrayList<Pawn>();
+    private static final ArrayList<Pawn> WINNING_PAWNS = new ArrayList<Pawn>();
+    // Liste des pions 4 pions alignés gagnants
 
     public Game(Player player1, Player player2) {
         this.player1 = player1;
@@ -87,7 +88,7 @@ public class Game {
             winner = currentPlayer;
             isPlaying = false;
 
-            for (Pawn pawn : WIN_PAWNS) {
+            for (Pawn pawn : WINNING_PAWNS) {
                 Player winPlayer = new Player();
                 winPlayer.setColor(WIN_COLOR);
                 winPlayer.setSymbol(pawn.getPlayer().getSymbol());
@@ -108,15 +109,18 @@ public class Game {
     public void placePawn(int col, int LowestEmptyCell) {
 
         for (int row = 0; row <= LowestEmptyCell; row++) {
+            // Supprime la position du pion précédent et la replace sur la ligne en dessous
             if (row != 0) {
                 board.setCell(col, row - 1, null);
             }
             board.setCell(col, row, currentPlayer);
 
+            // Réaffiche le plateau
             System.out.println(board.toString());
 
+            // Attends 200 ms avant de passer à l'itération suivante
             try {
-                Thread.sleep(200); // Attends x ms avant de passer à l'itération suivante
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -126,10 +130,12 @@ public class Game {
     public ArrayList<int[]> getPlayerWinningPositions(Player player) {
         ArrayList<int[]> winningPositions = new ArrayList<int[]>();
 
+        // Parcours toutes les cases du plateau
         for (int row = 0; row < board.getHeight(); row++) {
             for (int col = 0; col < board.getWidth(); col++) {
+
+                // Si la case est vide
                 if (board.getCell(col, row).getPlayer() == null) {
-                    // System.out.println("test X = " + col + ", Y = " + row + "\n");
                     // Place un pion temporairement pour vérifier si le coup est gagnant
                     board.setCell(col, row, player);
 
@@ -138,7 +144,8 @@ public class Game {
                         int[] position = new int[] { col, row };
                         winningPositions.add(position);
                     }
-                    // On remet la case à null
+
+                    // On remet revide la case
                     board.setCell(col, row, null);
                 }
             }
@@ -167,7 +174,7 @@ public class Game {
     }
 
     public boolean checkVictory(int col, int row, Player player) {
-        WIN_PAWNS.clear();
+        WINNING_PAWNS.clear();
 
         boolean isHorizontalWin = checkHorizontalWin(col, row, player);
         boolean isVerticalWin = checkVerticalWin(col, row, player);
@@ -183,22 +190,9 @@ public class Game {
 
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
         for (int checkCol = colStart; checkCol <= colEnd; checkCol++) {
-
-            Pawn pawn = board.getCell(checkCol, row);
-            if (pawn != null && pawn.getPlayer() == player) {
-                winPawns.add(pawn);
-                if (winPawns.size() >= 4) {
-                    if (WIN_PAWNS.size() < 4)
-                        WIN_PAWNS.addAll(winPawns);
-
-                    return true;
-                }
-            } else {
-                winPawns.clear();
+            if (getFourLinedPawns(checkCol, row, player, winPawns)) {
+                return true;
             }
-            // if (test(checkCol, row, player, winPawns)) {
-            // return true;
-            // }
 
         }
         return false;
@@ -210,22 +204,9 @@ public class Game {
 
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
         for (int checkRow = rowStart; checkRow <= rowEnd; checkRow++) {
-
-            Pawn pawn = board.getCell(col, checkRow);
-            if (pawn != null && pawn.getPlayer() == player) {
-                winPawns.add(pawn);
-                if (winPawns.size() >= 4) {
-                    if (WIN_PAWNS.size() < 4)
-                        WIN_PAWNS.addAll(winPawns);
-
-                    return true;
-                }
-            } else {
-                winPawns.clear();
+            if (getFourLinedPawns(col, checkRow, player, winPawns)) {
+                return true;
             }
-            // if (test(col, checkRow, player, winPawns)) {
-            // return true;
-            // }
         }
         return false;
     }
@@ -239,22 +220,9 @@ public class Game {
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
         for (int checkCol = colStart, checkRow = rowStart; checkCol <= colEnd
                 && checkRow <= rowEnd; checkCol++, checkRow++) {
-
-            Pawn pawn = board.getCell(checkCol, checkRow);
-            if (pawn != null && pawn.getPlayer() == player) {
-                winPawns.add(pawn);
-                if (winPawns.size() >= 4) {
-                    if (WIN_PAWNS.size() < 4)
-                        WIN_PAWNS.addAll(winPawns);
-
-                    return true;
-                }
-            } else {
-                winPawns.clear();
+            if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
+                return true;
             }
-            // if (test(checkCol, checkRow, player, winPawns)) {
-            // return true;
-            // }
         }
         return false;
     }
@@ -268,47 +236,45 @@ public class Game {
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
         for (int checkCol = colStart, checkRow = rowEnd; checkCol <= colEnd
                 && checkRow >= rowStart; checkCol++, checkRow--) {
-
-            Pawn pawn = board.getCell(checkCol, checkRow);
-            if (pawn != null && pawn.getPlayer() == player) {
-                winPawns.add(pawn);
-                if (winPawns.size() >= 4) {
-                    if (WIN_PAWNS.size() < 4)
-                        WIN_PAWNS.addAll(winPawns);
-
-                    return true;
-                }
-            } else {
-                winPawns.clear();
+            if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
+                return true;
             }
-            // if (test(checkCol, checkRow, player, winPawns)) {
-            // return true;
-            // }
         }
         return false;
     }
 
-    public boolean test(int col, int row, Player player, ArrayList<Pawn> winPawns) {
+    public boolean getFourLinedPawns(int col, int row, Player player, ArrayList<Pawn> winPawns) {
         Pawn pawn = board.getCell(col, row);
+
         // Si le pion n'est pas vide et qu'il appartient au joueur sélectionné
         if (pawn != null && pawn.getPlayer() == player) {
+            System.out.println("miam");
             winPawns.add(pawn);
             if (winPawns.size() >= 4) {
-                if (WIN_PAWNS.size() < 4)
-                    WIN_PAWNS.addAll(winPawns);
+                if (WINNING_PAWNS.size() < 4)
+                    WINNING_PAWNS.addAll(winPawns);
 
                 return true;
             }
+
+            // Sinon réinitialise la liste des pions alignés
         } else {
             winPawns.clear();
         }
         return false;
     }
 
-    // public void reset() {
-    // board.reset();
-    // currentPlayer = player1;
-    // }
+    public boolean checkLinedPawnsFromTo(int colStart, int colEnd, int rowStart, int rowEnd, Player player) {
+        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
+        for (int checkCol = colStart, checkRow = rowStart; checkCol <= colEnd
+                && checkRow <= rowStart; checkCol++, checkRow++) {
+
+            if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
