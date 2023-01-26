@@ -68,18 +68,6 @@ public class Game {
         }
     }
 
-    public boolean isOver() {
-        return board.isFull() || board.hasWinner();
-    }
-
-    public boolean isWinner(Player player) {
-        return board.hasWinner(player);
-    }
-
-    public boolean isDraw() {
-        return board.isFull() && !board.hasWinner();
-    }
-
     public void play(int col) {
         int row = board.getLowestEmptyCell(col);
         placePawn(col, row);
@@ -114,7 +102,7 @@ public class Game {
         }
     }
 
-    public ArrayList<int[]> getWinningPositions(Player player) {
+    public ArrayList<int[]> getPlayerWinningPositions(Player player) {
         ArrayList<int[]> winningPositions = new ArrayList<int[]>();
 
         for (int row = 0; row < board.getHeight(); row++) {

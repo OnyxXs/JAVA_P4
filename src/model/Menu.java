@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Map;
-
 public class Menu {
     public static void displayMainMenu() {
         System.out.println(Style.BACKGROUND_CYAN + Style.GREEN + "Menu principal" + Style.BACKGROUND_RESET);

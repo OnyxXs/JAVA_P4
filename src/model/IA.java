@@ -57,7 +57,7 @@ public class IA extends Player {
                 // Si la colonne aléatoire n'est pas une colonne qui ferait perdre l'IA
                 boolean canPlace = true;
                 if (!losCols.contains(randCol)) {
-                    ArrayList<int[]> pWinPoses = game.getWinningPositions(game.getPlayer1());
+                    ArrayList<int[]> pWinPoses = game.getPlayerWinningPositions(game.getPlayer1());
                     // positions gagnantes du joueur
 
                     for (int[] pWinPos : pWinPoses) {
@@ -79,7 +79,7 @@ public class IA extends Player {
     }
 
     public int playOffensively(Game game) {
-        ArrayList<int[]> winningPositions = game.getWinningPositions(game.getCurrentPlayer());
+        ArrayList<int[]> winningPositions = game.getPlayerWinningPositions(game.getCurrentPlayer());
         for (int[] winningPosition : winningPositions) {
             int winX = winningPosition[0];
             int winY = winningPosition[1];
@@ -101,7 +101,7 @@ public class IA extends Player {
     }
 
     public int playDefensively(Game game, boolean playIntelligently) {
-        ArrayList<int[]> playerWinPositions = game.getWinningPositions(game.getPlayer1());
+        ArrayList<int[]> playerWinPositions = game.getPlayerWinningPositions(game.getPlayer1());
         for (int[] pWinPos : playerWinPositions) {
             int winX = pWinPos[0];
             int winY = pWinPos[1];
