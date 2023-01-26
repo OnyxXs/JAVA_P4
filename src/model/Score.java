@@ -70,6 +70,16 @@ public class Score implements Comparable<Score> {
     }
 
     public static void csvToLeaderboard() {
+        File csvFile = new File(csvPath);
+
+        if (!csvFile.exists()) {
+            try {
+                csvFile.createNewFile();
+            } catch (Exception e) {
+                Menu.printError("Erreur lors de la création du fichier de classement");
+            }
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(csvPath))) {
             leaderboard.clear();
 
@@ -87,17 +97,7 @@ public class Score implements Comparable<Score> {
     }
 
     public static void leaderboardToCsv() {
-        File csvFile = new File(csvPath);
-
-        if (!csvFile.exists()) {
-            try {
-                csvFile.createNewFile();
-            } catch (Exception e) {
-                Menu.printError("Erreur lors de la création du fichier de classement");
-            }
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvPath))) {
             for (Score score : leaderboard) {
                 writer.write(score.toString());
                 writer.newLine();
