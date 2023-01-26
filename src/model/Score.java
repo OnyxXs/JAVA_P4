@@ -5,15 +5,17 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.File;
 
-public class Score {
+public class Score implements Comparable<Score> {
+    private static final String csvPath = "leaderboard.csv";
     public static final String SEPARATEUR = ";";
 
     private String name;
     private int score;
     private String opponentName;
 
-    public static ArrayList<Score> scores = new ArrayList<Score>();
+    public static ArrayList<Score> leaderboard = new ArrayList<Score>();
 
     public Score(String name, int score, String opponentName) {
         this.name = name;
@@ -48,39 +50,69 @@ public class Score {
         this.opponentName = opponentName;
     }
 
+    public static int getWorstLeaderboardScore() {
+        int worstScore = -1;
+        for (Score score : leaderboard) {
+            if (score.getScore() > worstScore) {
+                worstScore = score.getScore();
+            }
+        }
+        return worstScore;
+    }
+
+    public void saveToLeaderboard() {
+        leaderboard.add(this);
+        if (leaderboard.size() > 10) {
+            leaderboard.remove(10);
+        }
+
+        leaderboardToCsv();
+    }
+
     public static void csvToLeaderboard() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("leaderboard.csv"));
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvPath))) {
+            leaderboard.clear();
+
             String line = reader.readLine();
             while (line != null) {
                 String[] data = line.split(SEPARATEUR);
                 Score score = new Score(data[0], Integer.parseInt(data[1]), data[2]);
-                scores.add(score);
+                leaderboard.add(score);
                 line = reader.readLine();
             }
             reader.close();
         } catch (Exception e) {
-            System.out.println("Erreur lors de la lecture du fichier leaderboard.csv");
+            Menu.printError("Erreur lors de la lecture du fichier de classement");
         }
     }
 
     public static void leaderboardToCsv() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("leaderboard.csv"));
-            for (Score score : scores) {
+        File csvFile = new File(csvPath);
+
+        if (!csvFile.exists()) {
+            try {
+                csvFile.createNewFile();
+            } catch (Exception e) {
+                Menu.printError("Erreur lors de la création du fichier de classement");
+            }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFile))) {
+            for (Score score : leaderboard) {
                 writer.write(score.toString());
                 writer.newLine();
             }
             writer.close();
         } catch (Exception e) {
-            System.out.println("Erreur lors de l'écriture du fichier leaderboard.csv");
+            Menu.printError("Erreur lors de l'écriture du fichier de classement");
         }
     }
 
     public static void displayLeaderboard() {
-        csvToLeaderboard();
+        leaderboard.sort(null);
+
         System.out.println("Classement des joueurs :");
-        for (Score score : scores) {
+        for (Score score : leaderboard) {
             System.out
                     .println(score.getName() + " : " + score.getScore() + " points contre " + score.getOpponentName());
         }
@@ -96,5 +128,10 @@ public class Score {
         builder.append(opponentName);
 
         return builder.toString();
+    }
+
+    @Override
+    public int compareTo(Score score2) {
+        return this.score - score2.getScore();
     }
 }

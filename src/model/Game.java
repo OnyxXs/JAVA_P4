@@ -53,6 +53,10 @@ public class Game {
         this.winner = winner;
     }
 
+    public int getTurn() {
+        return turn;
+    }
+
     public Board getBoard() {
         return board;
     }

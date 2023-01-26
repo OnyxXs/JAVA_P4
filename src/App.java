@@ -12,6 +12,8 @@ public class App {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
+        Score.csvToLeaderboard();
+
         SelectMainMenuOption();
     }
 
@@ -36,7 +38,7 @@ public class App {
                     break;
                 case "3":
                     Score.displayLeaderboard();
-                    return;
+                    break;
                 case "4":
                     Menu.printError("Fermeture du programme...");
                     return;
@@ -219,10 +221,41 @@ public class App {
             }
         }
 
+        endGame(game);
+    }
+
+    public static void endGame(Game game) {
         if (game.getWinner() != null) {
             System.out.println("Le gagnant est " + game.getWinner().getName() + " !");
+            if (!(game.getWinner() instanceof IA)) {
+                int worstLbScore = Score.getWorstLeaderboardScore();
+                int score = game.getTurn();
+
+                if (Score.leaderboard.size() < 10 || score < worstLbScore) {
+                    insertScoreInLeaderboard(game, score);
+                }
+            }
+
         } else {
             System.out.println("Match nul !");
         }
+    }
+
+    public static void insertScoreInLeaderboard(Game game, int score) {
+        Score highscore = new Score();
+        highscore.setName(game.getWinner().getName());
+        highscore.setScore(score);
+        highscore.setOpponentName(game.getOpponent().getName());
+
+        highscore.saveToLeaderboard();
+        Score.leaderboard.sort(null);
+        int position = Score.leaderboard.indexOf(highscore) + 1;
+
+        String positionSuffix = "ème";
+        if (position == 1) {
+            positionSuffix = "ère";
+        }
+        System.out.println("Vous êtes entrés dans le top 10 ! Vous êtes à la " + position
+                + positionSuffix + " place du classement !");
     }
 }
