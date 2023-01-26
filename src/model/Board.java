@@ -63,27 +63,26 @@ public class Board {
     * vérifie si le tableau est plein
     */
     public boolean isFull() {
-        int[] fullColumns = getFullColumns();
-        return fullColumns.length == width;
+        return getFullColumns().size() >= width;
     }
 
     public boolean isColumnFull(int col) {
-        if (getLowestEmptyCell(col) < 0) {
-            return true;
-        }
-        return false;
+        return board.get(0).get(col).getPlayer() != null;
     }
 
-    public int[] getFullColumns() {
-        int[] fullColumns = new int[width];
-        int index = 0;
-        for (int i = 0; i < width; i++) {
-            if (isColumnFull(i)) {
-                fullColumns[index] = i;
-                index++;
+    public ArrayList<Integer> getFullColumns() {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+
+        for (int col = 0; col < width; col++) {
+            if (isColumnFull(col)) {
+                result.add(col);
             }
         }
-        return fullColumns;
+        return result;
+    }
+
+    public int getFreeColumnNumber() {
+        return width - getFullColumns().size();
     }
 
     /**
@@ -124,6 +123,9 @@ public class Board {
         return result.toString();
     }
 
+    public Pawn getCell(int col, int row) {
+        return board.get(row).get(col);
+    }
 
     public void setCell(int col, int row, Player player) {
         board.get(row).get(col).setPlayer(player);

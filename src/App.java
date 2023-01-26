@@ -2,6 +2,7 @@ import model.Style;
 import model.Game;
 import model.IA;
 import model.Player;
+import model.IA;
 import model.Board;
 import model.Menu;
 
@@ -60,11 +61,10 @@ public class App {
             switch (input) {
                 case "1":
                     System.out.println("1");
-                    VSIA=true;
                     return;
                 case "2":
                     initMultiplayerGame();
-                    return;
+                    break;
                 case "3":
                     afficherscores();
                     return;
@@ -76,6 +76,31 @@ public class App {
                     break;
             }
         }
+    }
+
+    public static void initSingleplayerGame() {
+        Player player1 = new Player();
+        player1.setNumber(1);
+
+        int AIdiff = selectAIDifficulty();
+
+        Player player2 = new IA(AIdiff);
+        player2.setNumber(2);
+
+        selectPlayerNameOption(player1);
+        selectColorOption(player1);
+        selectSymbolOption(player1, player2);
+
+        player2.setName("IA");
+        selectColorOption(player2);
+
+        Game game = new Game(player1, player2);
+
+        game.setBoard(new Board(7, 6));
+        game.getBoard().initBoard();
+        game.setPlayingStatus(true);
+
+        playGame(game);
     }
 
     /**
@@ -102,9 +127,7 @@ public class App {
         game.getBoard().initBoard();
         game.setPlayingStatus(true);
 
-        while (game.isPlaying()) {
-            playGame(game);
-        }
+        playGame(game);
     }
 
     /**
@@ -134,24 +157,26 @@ public class App {
             Menu.displayColorMenu(player);
 
             String input = getUserInput();
-            switch (input) {
-                case "1":
-                    player.setColor(Style.RED);
-                    return;
-                case "2":
-                    player.setColor(Style.BLUE);
-                    return;
-                case "3":
-                    player.setColor(Style.YELLOW);
-                    return;
-                case "4":
-                    player.setColor(Style.GREEN);
-                    return;
-                default:
-                    Menu.printError("Option invalide !");
-                    break;
+
+            try {
+                int colorIndex = Integer.parseInt(input);
+                colorIndex--;
+
+                String selectedColor = selectColor(colorIndex);
+                player.setColor(selectedColor);
+                return;
+
+            } catch (Exception e) {
+
             }
         }
+    }
+
+    public static String selectColor(int colorIndex) {
+        String selectedColor = Player.colorListIndex.get(colorIndex).getValue();
+        Player.colorListIndex.remove(colorIndex);
+
+        return selectedColor;
     }
 
     /**
@@ -188,64 +213,54 @@ public class App {
             Menu.displayPlayMenu();
 
             String input = getUserInput();
-            int column = Integer.parseInt(input);
-            column--;
+            try {
+                int column = Integer.parseInt(input);
+                column--;
 
-            if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
-                if (game.getBoard().isColumnFull(column)) {
-                    Menu.printError("La colonne est pleine !");
+                if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
+                    if (game.getBoard().isColumnFull(column)) {
+                        Menu.printError("La colonne est pleine !");
+                    } else {
+                        game.play(column);
+                        return;
+                    }
                 } else {
-                    game.play(column);
-                    return;
+                    Exception e = new Exception("invalid column");
+                    throw e;
                 }
-            } else {
-                Menu.printError("Colonne invalide !");
+            } catch (Exception e) {
+                if (input.equals("q")) {
+                    Menu.printError("Retour au menu principal...");
+                    game.setPlayingStatus(false);
+                    return;
+
+                } else {
+                    Menu.printError("Colonne invalide !");
+                }
+            }
+        }
+    }
+
+    public static int selectAIDifficulty() {
+        while (true) {
+            Menu.displayAIDifficultyMenu();
+
+            String input = getUserInput();
+            try {
+                int difficulty = Integer.parseInt(input);
+                if (difficulty >= 1 && difficulty <= 4) {
+                    return difficulty;
+                } else {
+                    Exception e = new Exception("invalid difficulty");
+                    throw e;
+                }
+            } catch (Exception e) {
+                Menu.printError("Difficulté invalide !");
             }
         }
     }
 
     public static void playGame(Game game) {
         selectPlayerColumnOption(game);
-    }
-
-    /**
-    * Cette méthode permet d'entrer les scores dans "scores.csv"
-    * Si le mode de jeu est contre l'IA, seul le nom du joueur et le score sont enregistrés ainsi que le niveau de difficulté de l'IA
-    * Sinon, les noms des deux joueurs et le score final sont enregistrés.
-    */
-    public static void entrerscores(Player player1, Player player2) throws IOException{
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/scores.csv", true)));
-        if(VSIA==true){
-            pw.println(player1.getName()+" ; "+Game.getScore()+" ; IA niveau "+IA.getDifficulty());
-        }
-        else{
-            pw.println(player1.getName()+" ; "+player2.getName()+" ; "+Game.getScore());
-        }
-        pw.close();
-    }
-
-    /**
-    * lis le fichier "scores.csv" qui contiens les scores de la partie précedente
-    * trie les scores par les troisiemes elements de la ligne qui représente le score
-    * affiche le score dans l'ordre trié
-    */
-    public static void afficherscores() throws IOException{
-        List<String> scores = new ArrayList<String>();
-        BufferedReader br = new BufferedReader(new FileReader("src/scores.csv"));
-        String line;
-        while ((line = br.readLine()) != null) {
-            scores.add(line);
-        }
-        br.close();
-        Collections.sort(scores, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Integer.parseInt(o1.split(" ; ")[2]) - Integer.parseInt(o2.split(" ; ")[2]);
-            }
-        });
-        scores.sort(Comparator.comparingInt(o -> Integer.parseInt(o.split(" ; ")[2])));
-        for (String score : scores) {
-            System.out.println(score);
-        }
     }
 }

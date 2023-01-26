@@ -19,10 +19,17 @@ public class Menu {
     public static void displayColorMenu(Player player) {
         printMenuTitle("Choix de la couleur");
         StringBuilder options = new StringBuilder();
-        options.append("1. Rouge\n");
-        options.append("2. Bleu\n");
-        options.append("3. Jaune\n");
-        options.append("4. Vert");
+
+        for (int colorNumber = 0; colorNumber < Player.colorListIndex.size(); colorNumber++) {
+            String color = Player.colorListIndex.get(colorNumber).getValue();
+            String colorName = Player.colorListIndex.get(colorNumber).getKey();
+
+            options.append((colorNumber + 1) + ". ");
+            options.append(color);
+            options.append(colorName + "\n");
+            options.append(Style.RESET);
+        }
+        options.deleteCharAt(options.length() - 1);
         printMenuOptions(options.toString());
     }
 
@@ -31,6 +38,16 @@ public class Menu {
         StringBuilder options = new StringBuilder();
         options.append("1. @\n");
         options.append("2. =");
+        printMenuOptions(options.toString());
+    }
+
+    public static void displayAIDifficultyMenu() {
+        printMenuTitle("Choix de la difficulté");
+        StringBuilder options = new StringBuilder();
+        options.append("1. Facile\n");
+        options.append("2. Moyen\n");
+        options.append("3. Difficile\n");
+        options.append("4. Pro");
         printMenuOptions(options.toString());
     }
 

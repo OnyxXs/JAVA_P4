@@ -1,14 +1,19 @@
 package model;
 
+import java.util.ArrayList;
 
 public class Game {
 
     private Player player1;
     private Player player2;
     private Player currentPlayer;
+    private Player winner;
     private Board board;
     private static int turn = 1;
     private boolean isPlaying = false;
+
+    private static final String WIN_COLOR = Style.PURPLE;
+    private static final ArrayList<Pawn> WIN_PAWNS = new ArrayList<Pawn>();
 
     public Game(Player player1, Player player2) {
 
@@ -35,6 +40,14 @@ public class Game {
         return currentPlayer;
     }
 
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -52,7 +65,7 @@ public class Game {
     }
 
     public void switchPlayer() {
-        if (currentPlayer == player1) {
+        if (currentPlayer.equals(player1)) {
             currentPlayer = player2;
         } else {
             currentPlayer = player1;
@@ -60,26 +73,33 @@ public class Game {
         }
     }
 
-    public boolean isOver() {
-        return board.isFull() || board.hasWinner();
-    }
-
-    public boolean isWinner(Player player) {
-        return board.hasWinner(player);
-    }
-
-    public boolean isDraw() {
-        return board.isFull() && !board.hasWinner();
-    }
-
     public void play(int col) {
-        placePawn(col);
+        int row = board.getLowestEmptyCell(col);
+        placePawn(col, row);
+
+        if (checkVictory(col, row, currentPlayer)) {
+            winner = currentPlayer;
+            isPlaying = false;
+
+            for (Pawn pawn : WIN_PAWNS) {
+                Player winPlayer = new Player();
+                winPlayer.setColor(WIN_COLOR);
+                winPlayer.setSymbol(pawn.getPlayer().getSymbol());
+
+                pawn.setPlayer(winPlayer);
+            }
+            System.out.println(board.toString());
+
+            return;
+        } else if (board.isFull()) {
+            isPlaying = false;
+            return;
+        }
 
         switchPlayer();
     }
 
-    public void placePawn(int col) {
-        int LowestEmptyCell = board.getLowestEmptyCell(col);
+    public void placePawn(int col, int LowestEmptyCell) {
 
         for (int row = 0; row <= LowestEmptyCell; row++) {
             if (row != 0) {
@@ -99,6 +119,138 @@ public class Game {
 
     public static int getScore() {
         return turn;
+    }
+    public ArrayList<int[]> getPlayerWinningPositions(Player player) {
+        ArrayList<int[]> winningPositions = new ArrayList<int[]>();
+
+        for (int row = 0; row < board.getHeight(); row++) {
+            for (int col = 0; col < board.getWidth(); col++) {
+                if (board.getCell(col, row).getPlayer() == null) {
+                    // System.out.println("test X = " + col + ", Y = " + row + "\n");
+                    // Place un pion temporairement pour vérifier si le coup est gagnant
+                    board.setCell(col, row, player);
+
+                    // Si le coup est gagnant, on ajoute les coordonnées du coup gagnant à la liste
+                    if (checkVictory(col, row, player)) {
+                        int[] position = new int[] { col, row };
+                        winningPositions.add(position);
+                    }
+                    // On remet la case à null
+                    board.setCell(col, row, null);
+                }
+            }
+        }
+
+        return winningPositions;
+    }
+
+    public boolean checkVictory(int col, int row, Player player) {
+        WIN_PAWNS.clear();
+
+        boolean isHorizontalWin = checkHorizontalWin(col, row, player);
+        boolean isVerticalWin = checkVerticalWin(col, row, player);
+        boolean isTopLeftToBotRightWin = checkTopLeftToBottomRightWin(col, row, player);
+        boolean isBotLeftToTopRightWin = checkBottomLeftToTopRightWin(col, row, player);
+
+        return isHorizontalWin || isVerticalWin || isTopLeftToBotRightWin || isBotLeftToTopRightWin;
+    }
+
+    public boolean checkHorizontalWin(int col, int row, Player player) {
+        int colStart = Math.max(col - 3, 0);
+        int colEnd = Math.min(col + 3, board.getWidth() - 1);
+
+        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
+        for (int checkCol = colStart; checkCol <= colEnd; checkCol++) {
+
+            Pawn pawn = board.getCell(checkCol, row);
+            if (pawn != null && pawn.getPlayer() == player) {
+                winPawns.add(pawn);
+                if (winPawns.size() >= 4) {
+                    if (WIN_PAWNS.size() < 4)
+                        WIN_PAWNS.addAll(winPawns);
+
+                    return true;
+                }
+            } else {
+                winPawns.clear();
+            }
+        }
+        return false;
+    }
+
+    public boolean checkVerticalWin(int col, int row, Player player) {
+        int rowStart = Math.max(row - 3, 0);
+        int rowEnd = Math.min(row + 3, board.getHeight() - 1);
+
+        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
+        for (int checkRow = rowStart; checkRow <= rowEnd; checkRow++) {
+
+            Pawn pawn = board.getCell(col, checkRow);
+            if (pawn != null && pawn.getPlayer() == player) {
+                winPawns.add(pawn);
+                if (winPawns.size() >= 4) {
+                    if (WIN_PAWNS.size() < 4)
+                        WIN_PAWNS.addAll(winPawns);
+
+                    return true;
+                }
+            } else {
+                winPawns.clear();
+            }
+        }
+        return false;
+    }
+
+    public boolean checkTopLeftToBottomRightWin(int col, int row, Player player) {
+        int colStart = Math.max(col - 3, 0);
+        int colEnd = Math.min(col + 3, board.getWidth() - 1);
+        int rowStart = Math.max(row - 3, 0);
+        int rowEnd = Math.min(row + 3, board.getHeight() - 1);
+
+        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
+        for (int checkCol = colStart, checkRow = rowStart; checkCol <= colEnd
+                && checkRow <= rowEnd; checkCol++, checkRow++) {
+
+            Pawn pawn = board.getCell(checkCol, checkRow);
+            if (pawn != null && pawn.getPlayer() == player) {
+                winPawns.add(pawn);
+                if (winPawns.size() >= 4) {
+                    if (WIN_PAWNS.size() < 4)
+                        WIN_PAWNS.addAll(winPawns);
+
+                    return true;
+                }
+            } else {
+                winPawns.clear();
+            }
+        }
+        return false;
+    }
+
+    public boolean checkBottomLeftToTopRightWin(int col, int row, Player player) {
+        int colStart = Math.max(col - 3, 0);
+        int colEnd = Math.min(col + 3, board.getWidth() - 1);
+        int rowStart = Math.max(row - 3, 0);
+        int rowEnd = Math.min(row + 3, board.getHeight() - 1);
+
+        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
+        for (int checkCol = colStart, checkRow = rowEnd; checkCol <= colEnd
+                && checkRow >= rowStart; checkCol++, checkRow--) {
+
+            Pawn pawn = board.getCell(checkCol, checkRow);
+            if (pawn != null && pawn.getPlayer() == player) {
+                winPawns.add(pawn);
+                if (winPawns.size() >= 4) {
+                    if (WIN_PAWNS.size() < 4)
+                        WIN_PAWNS.addAll(winPawns);
+
+                    return true;
+                }
+            } else {
+                winPawns.clear();
+            }
+        }
+        return false;
     }
 
     public void reset() {

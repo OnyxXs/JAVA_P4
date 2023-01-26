@@ -3,6 +3,10 @@ package model;
 /**
 * Classe publique représentant le joueur
 */
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+
 public class Player {
     private String name;
     private String color;
@@ -14,6 +18,17 @@ public class Player {
     * color : la couleur du joueur
     * symbol : l'icone en jeu du joueur
     */
+    public static Map<String, String> colorList = new HashMap<>() {
+        {
+            put("Rouge", Style.RED);
+            put("Bleu", Style.BLUE);
+            put("Jaune", Style.YELLOW);
+            put("Vert", Style.GREEN);
+        }
+    };
+
+    public static ArrayList<Map.Entry<String, String>> colorListIndex = new ArrayList<>(colorList.entrySet());
+
     public Player(String name, String color, char symbol) {
         this.name = name;
         this.color = color;
