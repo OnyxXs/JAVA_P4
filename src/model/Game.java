@@ -229,6 +229,10 @@ public class Game {
             }
         }
 
+        for (int col : winCols) {
+            System.out.println("Colonne gagnante : " + col);
+        }
+
         return winCols;
     }
 
@@ -349,10 +353,13 @@ public class Game {
     }
 
     public boolean getFourLinedPawns(int col, int row, Player player, ArrayList<Pawn> winPawns) {
-        Pawn pawn = board.getCell(col, row);
+        Pawn pawn = null;
+        if (col >= 0 && col < board.getWidth() && row >= 0 && row < board.getHeight()) {
+            pawn = board.getCell(col, row);
+        }
 
         // Si le pion appartient au joueur sélectionné
-        if (pawn.getPlayer() == player) {
+        if (pawn != null && pawn.getPlayer() == player) {
             // Ajoute le pion à la liste des pions alignés
             winPawns.add(pawn);
 

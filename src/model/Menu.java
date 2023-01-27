@@ -28,7 +28,6 @@ public class Menu {
             menu.append(colorName + "\n");
             menu.append(Style.RESET);
         }
-        menu.deleteCharAt(menu.length() - 1);
         System.out.println(menu.toString());
     }
 
