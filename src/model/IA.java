@@ -2,21 +2,45 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Cette classe représente un joueur contrôlé par l'IA. Elle possède
+ * une difficulté, et adapte son comportement en fonction de celle-ci.
+ */
 public class IA extends Player {
     private int difficulty;
 
+    /**
+     * Constructeur de la classe IA.
+     * 
+     * @param difficulty La difficulté de l'IA.
+     */
     public IA(int difficulty) {
         this.difficulty = difficulty;
     }
 
+    /**
+     * Retourne la difficulté de l'IA.
+     * 
+     * @return La difficulté de l'IA.
+     */
     public int getDifficulty() {
         return difficulty;
     }
 
+    /**
+     * Défini la difficulté de l'IA.
+     * 
+     * @param difficulty La nouvelle difficulté de l'IA.
+     */
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
+    /**
+     * Joue un coup pour l'IA.
+     * 
+     * @param game Le jeu en cours.
+     */
     public void play(Game game) {
         int columnToPlay = 1;
 
@@ -38,6 +62,13 @@ public class IA extends Player {
         game.play(columnToPlay);
     }
 
+    /**
+     * Joue un coup aléatoire pour l'IA.
+     * 
+     * @param game              Le jeu en cours.
+     * @param playIntelligently Si l'IA doit jouer intelligemment.
+     * @return La colonne où l'IA a joué.
+     */
     public int playRandomly(Game game, boolean playIntelligently) {
         while (true) {
             int randCol = (int) (Math.random() * game.getBoard().getWidth());
@@ -61,6 +92,12 @@ public class IA extends Player {
         }
     }
 
+    /**
+     * Joue un coup offensif pour l'IA.
+     * 
+     * @param game Le jeu en cours.
+     * @return La colonne où l'IA a joué.
+     */
     public int playOffensively(Game game) {
         ArrayList<Integer> winPoses = game.getPlayerWinningColumns(game.getCurrentPlayer());
         if (winPoses.size() > 0) {
@@ -70,10 +107,23 @@ public class IA extends Player {
         return playIntelligently(game);
     }
 
+    /**
+     * Joue un coup intelligent pour l'IA.
+     * 
+     * @param game Le jeu en cours.
+     * @return La colonne où l'IA a joué.
+     */
     public int playIntelligently(Game game) {
         return playDefensively(game, true);
     }
 
+    /**
+     * Joue un coup défensif pour l'IA.
+     * 
+     * @param game              Le jeu en cours.
+     * @param playIntelligently Si l'IA doit jouer intelligemment.
+     * @return La colonne où l'IA a joué.
+     */
     public int playDefensively(Game game, boolean playIntelligently) {
         ArrayList<Integer> oppWinCols = game.getPlayerWinningColumns(game.getOpponent());
         if (oppWinCols.size() > 0) {
@@ -83,6 +133,12 @@ public class IA extends Player {
         return playRandomly(game, playIntelligently);
     }
 
+    /**
+     * Retourne les colonnes perdantes pour l'IA.
+     * 
+     * @param game Le jeu en cours.
+     * @return Les colonnes perdantes pour l'IA.
+     */
     public ArrayList<Integer> getAILosingColumns(Game game) {
         ArrayList<int[]> oppWinPoses = game.getPlayerWinningPositions(game.getOpponent());
         ArrayList<Integer> losCols = new ArrayList<Integer>();

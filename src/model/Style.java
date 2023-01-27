@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Cette classe représente un style. Elle contient les couleurs utilisées dans
+ * le
+ * jeu.
+ */
 public class Style {
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";

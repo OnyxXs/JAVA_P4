@@ -6,21 +6,38 @@ import model.Menu;
 
 import java.util.Scanner;
 
+/**
+ * Cette classe représente l'application. C'est le point d'entrée du programme.
+ */
 public class App {
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Point d'entrée du programme.
+     * 
+     * @param args Les arguments passés au programme.
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         Score.csvToLeaderboard();
 
         SelectMainMenuOption();
     }
 
+    /**
+     * Retourne l'entrée de l'utilisateur.
+     * 
+     * @return L'entrée de l'utilisateur.
+     */
     public static String getUserInput() {
         // Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         return input;
     }
 
+    /**
+     * Affiche le menu principal et permet de sélectionner une option.
+     */
     public static void SelectMainMenuOption() {
         while (true) {
             Menu.displayMainMenu();
@@ -47,6 +64,9 @@ public class App {
         }
     }
 
+    /**
+     * Initialise une partie en mode solo.
+     */
     public static void initSingleplayerGame() {
         Player player1 = new Player("1");
 
@@ -75,6 +95,9 @@ public class App {
         playGame(game);
     }
 
+    /**
+     * Initialise une partie en mode multijoueur.
+     */
     public static void initMultiplayerGame() {
 
         Player player1 = new Player("1");
@@ -94,6 +117,11 @@ public class App {
         playGame(game);
     }
 
+    /**
+     * Affiche le menu de sélection du nom du joueur et permet d'en rentrer un
+     * 
+     * @param player Le joueur dont on veut modifier le nom.
+     */
     public static void selectPlayerNameOption(Player player) {
         while (true) {
             Menu.displayPlayerNameMenu(player);
@@ -108,6 +136,12 @@ public class App {
         }
     }
 
+    /**
+     * Affiche le menu de sélection de la couleur du joueur et permet
+     * d'en
+     * sélectionner une via son numéro.
+     * 
+     */
     public static void selectColorOption(Player player) {
         while (true) {
             Menu.displayColorMenu(player);
@@ -128,6 +162,12 @@ public class App {
         }
     }
 
+    /**
+     * Retourne la couleur correspondant au numéro donné.
+     *
+     * @param colorIndex L'index de la couleur sélectionnée.
+     * @return Le numéro de la couleur sélectionnée.
+     */
     public static String selectColor(int colorIndex) {
         String selectedColor = Game.colorListIndex.get(colorIndex).getValue();
         Game.colorListIndex.remove(colorIndex);
@@ -135,6 +175,13 @@ public class App {
         return selectedColor;
     }
 
+    /**
+     * Affiche le menu de sélection du symbole du joueur et permet d'en sélectionner
+     * un.
+     * 
+     * @param player1 Le joueur 1.
+     * @param player2 Le joueur 2.
+     */
     public static void selectSymbolOption(Player player1, Player player2) {
         while (true) {
             Menu.displaySymbolMenu(player1);
@@ -156,6 +203,10 @@ public class App {
         }
     }
 
+    /**
+     * Affiche le menu de sélection de la colonne sur laquelle jouer et permet d'y
+     * placer un pion
+     */
     public static void selectPlayerColumnOption(Game game) {
         while (true) {
             game.display();
@@ -191,6 +242,13 @@ public class App {
         }
     }
 
+    /**
+     * Affiche le menu de sélection de la difficulté de l'IA et permet d'en
+     * sélectionner
+     * une.
+     * 
+     * @return Le numéro de la difficulté sélectionnée.
+     */
     public static int selectAIDifficulty() {
         while (true) {
             Menu.displayAIDifficultyMenu();
@@ -210,6 +268,11 @@ public class App {
         }
     }
 
+    /**
+     * Lance une partie
+     * 
+     * @param game La partie à lancer
+     */
     public static void playGame(Game game) {
         while (game.isPlaying()) {
             if (game.getCurrentPlayer() instanceof IA) {
@@ -225,6 +288,11 @@ public class App {
         }
     }
 
+    /**
+     * Termine une partie et affiche le gagnant
+     * 
+     * @param game La partie en cours
+     */
     public static void endGame(Game game) {
         if (game.getWinner() != null) {
             System.out.println("Le gagnant est " + game.getWinner().getName() + " !");
@@ -242,6 +310,12 @@ public class App {
         }
     }
 
+    /**
+     * Insère le score du joueur dans le classement
+     * 
+     * @param game  La partie en cours
+     * @param score Le score du joueur
+     */
     public static void insertScoreInLeaderboard(Game game, int score) {
         Score highscore = new Score();
         highscore.setName(game.getWinner().getName());
@@ -263,6 +337,12 @@ public class App {
                 + positionSuffix + " place du classement !");
     }
 
+    /**
+     * Affiche le menu de redémarrage et permet de redémarrer une partie ou de
+     * retourner
+     * au menu principal.
+     * 
+     */
     public static void askForRestart(Game game) {
         while (true) {
             Menu.displayRestartMenu();

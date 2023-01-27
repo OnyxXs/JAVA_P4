@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Cette classe représente une partie de jeu. Elle contient un plateau de jeu.
+ * Le nombre de tour écoulé.
+ * 2 joueurs, dont le joueur qui joue ce tour-ci, le jouer opposé, et le joueur
+ * qui a commencé la partie.
+ * Une liste de couleur que les joueurs peuvent choisir pour leurs pions.
+ */
 public class Game {
     private static final String WIN_COLOR = Style.PURPLE;
     private static final ArrayList<Pawn> WINNING_PAWNS = new ArrayList<Pawn>();
@@ -31,6 +38,12 @@ public class Game {
 
     public static ArrayList<Map.Entry<String, String>> colorListIndex = new ArrayList<>(colorList.entrySet());
 
+    /**
+     * Constructeur de la classe Game.
+     * 
+     * @param player1 Le premier joueur.
+     * @param player2 Le deuxième joueur.
+     */
     public Game(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
@@ -40,6 +53,9 @@ public class Game {
         initGame();
     }
 
+    /**
+     * Initialise la partie.
+     */
     public void initGame() {
         board = new Board(7, 6);
         board.initBoard();
@@ -59,71 +75,153 @@ public class Game {
         colorListIndex = new ArrayList<>(colorList.entrySet());
     }
 
+    /**
+     * Affiche une représentation textuelle de la partie
+     *
+     */
     public void display() {
         String gameDisplay = this.toString();
         System.out.println(gameDisplay);
     }
 
+    /**
+     * Retourne le joueur numéro 1.
+     * 
+     * @return Le joueur numéro 1.
+     */
     public Player getPlayer1() {
         return player1;
     }
 
+    /**
+     * Retourne le joueur numéro 2.
+     * 
+     * @return Le joueur numéro 2.
+     */
     public Player getPlayer2() {
         return player2;
     }
 
+    /**
+     * Retourne le joueur qui joue ce tour-ci.
+     * 
+     * @return Le joueur qui joue ce tour-ci.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Retourne le joueur qui ne joue pas ce tour-ci.
+     * 
+     * @return Le joueur qui ne joue pas ce tour-ci.
+     */
     public Player getOpponent() {
         return opponent;
     }
 
+    /**
+     * Retourne le joueur qui a gagné la partie.
+     * 
+     * @return Le joueur qui a gagné la partie.
+     */
     public Player getWinner() {
         return winner;
     }
 
+    /**
+     * Défini le joueur qui joue ce tour-ci.
+     * 
+     * @param currentPlayer Le joueur qui joue ce tour-ci.
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Défini le joueur qui a gagné la partie.
+     * 
+     * @param winner Le joueur qui a gagné la partie.
+     */
     public void setWinner(Player winner) {
         this.winner = winner;
     }
 
+    /**
+     * Défini le joueur qui a commencé la partie.
+     * 
+     * @param firstPlayer Le joueur qui a commencé la partie.
+     */
     public void setFirstPlayer(Player firstPlayer) {
         this.firstPlayer = firstPlayer;
     }
 
+    /**
+     * Vérifie si la partie a été quittée prématurément.
+     * 
+     * @param status Le statut de la partie.
+     */
     public void setQuitStatus(boolean status) {
         wasQuit = status;
     }
 
+    /**
+     * Retourne le statut de la partie.
+     * 
+     * @return Le statut de la partie.
+     */
     public boolean wasQuit() {
         return wasQuit;
     }
 
+    /**
+     * Retourne le nombre de tour écoulé.
+     * 
+     * @return Le nombre de tour écoulé.
+     */
     public int getTurn() {
         return turn;
     }
 
+    /**
+     * Retourne le plateau de jeu.
+     * 
+     * @return Le plateau de jeu.
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Retourne le statut de la partie.
+     * 
+     * @return Le statut de la partie.
+     */
     public boolean isPlaying() {
         return isPlaying;
     }
 
+    /**
+     * Affect un plateau de jeu.
+     * 
+     * @param board Le plateau de jeu.
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * Défini le statut de la partie.
+     * 
+     * @param status Le statut de la partie.
+     */
     public void setPlayingStatus(boolean status) {
         isPlaying = status;
     }
 
+    /**
+     * Inverse le joueur actuel et son adversaire.
+     */
     public void switchPlayer() {
         if (currentPlayer == player1) {
             currentPlayer = player2;
@@ -139,6 +237,11 @@ public class Game {
         }
     }
 
+    /**
+     * Fait jouer le joueur actuel dans la colonne spécifiée.
+     * 
+     * @param col La colonne dans laquelle le joueur actuel joue.
+     */
     public void play(int col) {
         int row = board.getLowestEmptyCell(col);
         placePawn(col, row);
@@ -165,6 +268,15 @@ public class Game {
         switchPlayer();
     }
 
+    /**
+     * Place un pion dans la colonne spécifiée, en le descendant jusqu'à la case
+     * vide la plus basse.
+     * 
+     * @param col             La colonne dans laquelle le pion est placé.
+     * @param LowestEmptyCell La ligne la plus basse de la colonne dans laquelle le
+     *                        pion est
+     *                        placé.
+     */
     public void placePawn(int col, int LowestEmptyCell) {
 
         for (int row = 0; row <= LowestEmptyCell; row++) {
@@ -186,6 +298,12 @@ public class Game {
         }
     }
 
+    /**
+     * Récupère la liste de toutes les positions gainantes pour le joueur spécifié.
+     * 
+     * @param player Le joueur pour lequel on récupère les positions gagnantes.
+     * @return La liste de toutes les positions gagnantes pour le joueur spécifié.
+     */
     public ArrayList<int[]> getPlayerWinningPositions(Player player) {
         ArrayList<int[]> winningPositions = new ArrayList<int[]>();
 
@@ -213,6 +331,12 @@ public class Game {
         return winningPositions;
     }
 
+    /**
+     * Récupère la liste des colonnes gagnantes pour le joueur spécifié.
+     * 
+     * @param player Le joueur pour lequel on récupère les colonnes gagnantes.
+     * @return La liste des colonnes gagnantes pour le joueur spécifié.
+     */
     public ArrayList<Integer> getPlayerWinningColumns(Player player) {
         ArrayList<Integer> winCols = new ArrayList<Integer>();
         ArrayList<int[]> winPoses = getPlayerWinningPositions(player);
@@ -236,6 +360,15 @@ public class Game {
         return winCols;
     }
 
+    /**
+     * Vérifie si placer un pion à la position spécifiée est gagnant pour le joueur
+     * spécifié
+     * 
+     * @param col    La colonne dans laquelle le pion est placé.
+     * @param row    La ligne dans laquelle le pion est placé.
+     * @param player Le joueur pour lequel on vérifie si le coup est gagnant.
+     * @return true si le coup est gagnant, false sinon.
+     */
     public boolean checkVictory(int col, int row, Player player) {
         WINNING_PAWNS.clear();
 
@@ -247,6 +380,14 @@ public class Game {
         return isHorizontalWin || isVerticalWin || isTopLeftToBotRightWin || isBotLeftToTopRightWin;
     }
 
+    /**
+     * Vérifie si le coup est gagnant horizontalement.
+     * 
+     * @param col    La colonne dans laquelle le pion est placé.
+     * @param row    La ligne dans laquelle le pion est placé.
+     * @param player Le joueur pour lequel on vérifie si le coup est gagnant.
+     * @return true si le coup est gagnant, false sinon.
+     */
     public boolean checkHorizontalWin(int col, int row, Player player) {
         int colStart = Math.max(col - 3, 0);
         int colEnd = Math.min(col + 3, board.getWidth() - 1);
@@ -261,6 +402,14 @@ public class Game {
         return false;
     }
 
+    /**
+     * Vérifie si le coup est gagnant verticalement.
+     * 
+     * @param col    La colonne dans laquelle le pion est placé.
+     * @param row    La ligne dans laquelle le pion est placé.
+     * @param player Le joueur pour lequel on vérifie si le coup est gagnant.
+     * @return true si le coup est gagnant, false sinon.
+     */
     public boolean checkVerticalWin(int col, int row, Player player) {
         int rowStart = Math.max(row - 3, 0);
         int rowEnd = Math.min(row + 3, board.getHeight() - 1);
@@ -274,6 +423,14 @@ public class Game {
         return false;
     }
 
+    /**
+     * Vérifie si le coup est gagnant diagonalement de haut gauche à bas droite.
+     * 
+     * @param col    La colonne dans laquelle le pion est placé.
+     * @param row    La ligne dans laquelle le pion est placé.
+     * @param player Le joueur pour lequel on vérifie si le coup est gagnant.
+     * @return true si le coup est gagnant, false sinon.
+     */
     public boolean checkTopLeftToBottomRightWin(int col, int row, Player player) {
         int colStart = col - 3;
         int colEnd = col + 4;
@@ -313,6 +470,14 @@ public class Game {
         return false;
     }
 
+    /**
+     * Vérifie si le coup est gagnant diagonalement de bas gauche à haut droite.
+     * 
+     * @param col    La colonne dans laquelle le pion est placé.
+     * @param row    La ligne dans laquelle le pion est placé.
+     * @param player Le joueur pour lequel on vérifie si le coup est gagnant.
+     * @return true si le coup est gagnant, false sinon.
+     */
     public boolean checkBottomLeftToTopRightWin(int col, int row, Player player) {
         int colStart = col - 3;
         int colEnd = col + 4;
@@ -352,6 +517,14 @@ public class Game {
         return false;
     }
 
+    /**
+     * Vérifie si un pion est aligné avec 3 pions suivants une direction
+     * 
+     * @param col    La colonne dans laquelle le pion est placé.
+     * @param row    La ligne dans laquelle le pion est placé.
+     * @param player Le joueur pour lequel on vérifie si le coup est gagnant.
+     * @return true si le coup est gagnant, false sinon.
+     */
     public boolean getFourLinedPawns(int col, int row, Player player, ArrayList<Pawn> winPawns) {
         Pawn pawn = null;
         if (col >= 0 && col < board.getWidth() && row >= 0 && row < board.getHeight()) {
@@ -379,6 +552,9 @@ public class Game {
         return false;
     }
 
+    /**
+     * Réinitialise la partie.
+     */
     public void reset() {
         if (firstPlayer == player1) {
             firstPlayer = player2;
@@ -393,6 +569,9 @@ public class Game {
         initGame();
     }
 
+    /**
+     * Retourne une chaîne de caractères représentant l'état de la partie.
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

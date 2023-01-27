@@ -7,6 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.File;
 
+/**
+ * Cette classe représente un score. Elle contient le nom du joueur, son score
+ * et
+ * le nom de son adversaire.
+ */
 public class Score implements Comparable<Score> {
     private static final String csvPath = "leaderboard.csv";
     public static final String SEPARATEUR = ";";
@@ -17,39 +22,82 @@ public class Score implements Comparable<Score> {
 
     public static ArrayList<Score> leaderboard = new ArrayList<Score>();
 
+    /**
+     * Constructeur de la classe Score.
+     * 
+     * @param name         Le nom du joueur.
+     * @param score        Le score du joueur.
+     * @param opponentName Le nom de l'adversaire du joueur.
+     */
     public Score(String name, int score, String opponentName) {
         this.name = name;
         this.score = score;
         this.opponentName = opponentName;
     }
 
+    /**
+     * Constructeur de la classe Score.
+     */
     public Score() {
     }
 
+    /**
+     * Retourne le nom du joueur.
+     * 
+     * @return Le nom du joueur.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Défini le nom du joueur.
+     * 
+     * @param name Le nouveau nom du joueur.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Retourne le score du joueur.
+     * 
+     * @return Le score du joueur.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Défini le score du joueur.
+     * 
+     * @param score Le score du joueur.
+     */
     public void setScore(int score) {
         this.score = score;
     }
 
+    /**
+     * Retourne le nom de l'adversaire du joueur.
+     * 
+     * @return Le nom de l'adversaire du joueur.
+     */
     public String getOpponentName() {
         return opponentName;
     }
 
+    /**
+     * Défini le nom de l'adversaire du joueur.
+     * 
+     * @param opponentName Le nom de l'adversaire du joueur.
+     */
     public void setOpponentName(String opponentName) {
         this.opponentName = opponentName;
     }
 
+    /**
+     * Retourne le pire score du classement.
+     */
     public static int getWorstLeaderboardScore() {
         int worstScore = -1;
         for (Score score : leaderboard) {
@@ -60,12 +108,18 @@ public class Score implements Comparable<Score> {
         return worstScore;
     }
 
+    /**
+     * Enregistre le score dans le classement.
+     */
     public void saveToLeaderboard() {
         leaderboard.add(this);
 
         leaderboardToCsv();
     }
 
+    /**
+     * Enregistre le classement dans le fichier csv.
+     */
     public static void csvToLeaderboard() {
         File csvFile = new File(csvPath);
 
@@ -93,6 +147,9 @@ public class Score implements Comparable<Score> {
         }
     }
 
+    /**
+     * Récupère le classement depuis le fichier csv.
+     */
     public static void leaderboardToCsv() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvPath))) {
             for (Score score : leaderboard) {
@@ -105,6 +162,9 @@ public class Score implements Comparable<Score> {
         }
     }
 
+    /**
+     * Affiche le classement.
+     */
     public static void displayLeaderboard() {
         leaderboard.sort(null);
 
@@ -120,6 +180,9 @@ public class Score implements Comparable<Score> {
         }
     }
 
+    /**
+     * Retourne une chaîne de caractères représentant le score.
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -132,6 +195,9 @@ public class Score implements Comparable<Score> {
         return builder.toString();
     }
 
+    /**
+     * Comparateur de la classe Score.
+     */
     @Override
     public int compareTo(Score score2) {
         if (this.score == score2.getScore()) {
