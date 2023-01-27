@@ -50,36 +50,41 @@ public class App {
     }
 
     public static void initSingleplayerGame() {
-        Player player1 = new Player();
-        player1.setNumber(1);
+        Player player1 = new Player("1");
 
         int AIdiff = selectAIDifficulty();
+        Player ai = new IA(AIdiff);
 
-        Player player2 = new IA(AIdiff);
-        player2.setNumber(2);
+        Game game = new Game(player1, ai);
+
+        // Generate 0 or 1
+        int firstPlayerIndex = (int) Math.round(Math.random());
+        if (firstPlayerIndex == 0) {
+            game.setFirstPlayer(player1);
+            game.setCurrentPlayer(player1);
+        } else {
+            game.setFirstPlayer(ai);
+            game.setCurrentPlayer(ai);
+        }
 
         selectPlayerNameOption(player1);
         selectColorOption(player1);
-        selectSymbolOption(player1, player2);
+        selectSymbolOption(player1, ai);
 
-        player2.setName("IA");
-        selectColorOption(player2);
-
-        Game game = new Game(player1, player2);
-
-        game.setBoard(new Board(7, 6));
-        game.getBoard().initBoard();
-        game.setPlayingStatus(true);
+        ai.setName("IA Niveau " + AIdiff);
+        selectColorOption(ai);
 
         playGame(game);
     }
 
     public static void initMultiplayerGame() {
-        Player player1 = new Player();
-        player1.setNumber(1);
 
-        Player player2 = new Player();
-        player2.setNumber(2);
+        Player player1 = new Player("1");
+        Player player2 = new Player("2");
+
+        Game game = new Game(player1, player2);
+        game.setFirstPlayer(player1);
+        game.setCurrentPlayer(player1);
 
         selectPlayerNameOption(player1);
         selectColorOption(player1);
@@ -87,12 +92,6 @@ public class App {
 
         selectPlayerNameOption(player2);
         selectColorOption(player2);
-
-        Game game = new Game(player1, player2);
-
-        game.setBoard(new Board(7, 6));
-        game.getBoard().initBoard();
-        game.setPlayingStatus(true);
 
         playGame(game);
     }
@@ -132,8 +131,8 @@ public class App {
     }
 
     public static String selectColor(int colorIndex) {
-        String selectedColor = Player.colorListIndex.get(colorIndex).getValue();
-        Player.colorListIndex.remove(colorIndex);
+        String selectedColor = Game.colorListIndex.get(colorIndex).getValue();
+        Game.colorListIndex.remove(colorIndex);
 
         return selectedColor;
     }
@@ -184,6 +183,7 @@ public class App {
                 if (input.equals("q")) {
                     Menu.printError("Retour au menu principal...");
                     game.setPlayingStatus(false);
+                    game.setQuitStatus(true);
                     return;
 
                 } else {
@@ -221,9 +221,10 @@ public class App {
             }
         }
 
-        endGame(game);
-
-        askForRestart();
+        if (!game.wasQuit()) {
+            endGame(game);
+            askForRestart(game);
+        }
     }
 
     public static void endGame(Game game) {
@@ -251,6 +252,9 @@ public class App {
 
         highscore.saveToLeaderboard();
         Score.leaderboard.sort(null);
+        if (Score.leaderboard.size() > 10) {
+            Score.leaderboard.remove(10);
+        }
         int position = Score.leaderboard.indexOf(highscore) + 1;
 
         String positionSuffix = "ème";
@@ -263,11 +267,12 @@ public class App {
 
     public static void askForRestart(Game game) {
         while (true) {
-            // Menu.displayRestartPrompt();
+            Menu.printColoredText("Voulez-vous rejouer ?", Style.GREEN);
 
             String input = getUserInput();
             switch (input) {
                 case "1":
+                    game.reset();
                     playGame(game);
                     return;
                 case "2":

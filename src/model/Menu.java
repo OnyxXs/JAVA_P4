@@ -12,16 +12,16 @@ public class Menu {
     }
 
     public static void displayPlayerNameMenu(Player player) {
-        printInputQuery("Entrez le nom du joueur " + player.getNumber() + " :");
+        printInputQuery("Entrez le nom du joueur " + player.getName() + " :");
     }
 
     public static void displayColorMenu(Player player) {
         printMenuTitle("Choix de la couleur");
         StringBuilder options = new StringBuilder();
 
-        for (int colorNumber = 0; colorNumber < Player.colorListIndex.size(); colorNumber++) {
-            String color = Player.colorListIndex.get(colorNumber).getValue();
-            String colorName = Player.colorListIndex.get(colorNumber).getKey();
+        for (int colorNumber = 0; colorNumber < Game.colorListIndex.size(); colorNumber++) {
+            String color = Game.colorListIndex.get(colorNumber).getValue();
+            String colorName = Game.colorListIndex.get(colorNumber).getKey();
 
             options.append((colorNumber + 1) + ". ");
             options.append(color);

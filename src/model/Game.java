@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
     private static final String WIN_COLOR = Style.PURPLE;
@@ -12,15 +14,49 @@ public class Game {
     private Player currentPlayer;
     private Player opponent;
     private Player winner;
+    private Player firstPlayer;
     private Board board;
-    private int turn = 1;
+    private int turn;
     private boolean isPlaying = false;
+    private boolean wasQuit = false;
+
+    public static Map<String, String> colorList = new HashMap<>() {
+        {
+            put("Rouge", Style.RED);
+            put("Bleu", Style.BLUE);
+            put("Jaune", Style.YELLOW);
+            put("Vert", Style.GREEN);
+        }
+    };
+
+    public static ArrayList<Map.Entry<String, String>> colorListIndex = new ArrayList<>(colorList.entrySet());
 
     public Game(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
         this.currentPlayer = player1;
         this.opponent = player2;
+
+        initGame();
+    }
+
+    public void initGame() {
+        board = new Board(7, 6);
+        board.initBoard();
+        isPlaying = true;
+        turn = 1;
+        WINNING_PAWNS.clear();
+
+        colorList = new HashMap<>() {
+            {
+                put("Rouge", Style.RED);
+                put("Bleu", Style.BLUE);
+                put("Jaune", Style.YELLOW);
+                put("Vert", Style.GREEN);
+            }
+        };
+
+        colorListIndex = new ArrayList<>(colorList.entrySet());
     }
 
     public void display() {
@@ -48,8 +84,24 @@ public class Game {
         return winner;
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public void setWinner(Player winner) {
         this.winner = winner;
+    }
+
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public void setQuitStatus(boolean status) {
+        wasQuit = status;
+    }
+
+    public boolean wasQuit() {
+        return wasQuit;
     }
 
     public int getTurn() {
@@ -79,6 +131,10 @@ public class Game {
         } else {
             currentPlayer = player1;
             opponent = player2;
+        }
+
+        // Augmente le nombre de tours de 1 si le joueur actuel est celui qui a commencé
+        if (currentPlayer.equals(firstPlayer)) {
             turn++;
         }
     }
@@ -268,6 +324,20 @@ public class Game {
             winPawns.clear();
         }
         return false;
+    }
+
+    public void reset() {
+        if (firstPlayer == player1) {
+            firstPlayer = player2;
+            currentPlayer = player2;
+            opponent = player1;
+        } else {
+            firstPlayer = player1;
+            currentPlayer = player1;
+            opponent = player2;
+        }
+
+        initGame();
     }
 
     @Override

@@ -62,9 +62,6 @@ public class Score implements Comparable<Score> {
 
     public void saveToLeaderboard() {
         leaderboard.add(this);
-        if (leaderboard.size() > 10) {
-            leaderboard.remove(10);
-        }
 
         leaderboardToCsv();
     }
@@ -114,7 +111,7 @@ public class Score implements Comparable<Score> {
         System.out.println("Classement des joueurs :");
         for (Score score : leaderboard) {
             System.out
-                    .println(score.getName() + " : " + score.getScore() + " points contre " + score.getOpponentName());
+                    .println(score.getName() + " : " + score.getScore() + " tours contre " + score.getOpponentName());
         }
     }
 
@@ -132,6 +129,10 @@ public class Score implements Comparable<Score> {
 
     @Override
     public int compareTo(Score score2) {
-        return this.score - score2.getScore();
+        if (this.score == score2.getScore()) {
+            return 1;
+        } else {
+            return this.score - score2.getScore();
+        }
     }
 }
