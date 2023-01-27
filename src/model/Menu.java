@@ -50,8 +50,16 @@ public class Menu {
         printMenuOptions(options.toString());
     }
 
+    public static void displayRestartMenu() {
+        printMenuTitle("Voulez-vous rejouer ?");
+        StringBuilder options = new StringBuilder();
+        options.append("1. Oui\n");
+        options.append("2. Non");
+        printMenuOptions(options.toString());
+    }
+
     public static void displayPlayMenu() {
-        printInputQuery("Entrez le numéro de la colonne sur laquelle jouer :");
+        printInputQuery("Entrez un numéro de colonne, ou q pour quitter :");
     }
 
     public static void printMenuTitle(String title) {
