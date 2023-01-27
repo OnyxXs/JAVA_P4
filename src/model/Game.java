@@ -305,8 +305,8 @@ public class Game {
     public boolean getFourLinedPawns(int col, int row, Player player, ArrayList<Pawn> winPawns) {
         Pawn pawn = board.getCell(col, row);
 
-        // Si le pion n'est pas vide et qu'il appartient au joueur sélectionné
-        if (pawn != null && pawn.getPlayer() == player) {
+        // Si le pion appartient au joueur sélectionné
+        if (pawn.getPlayer() == player) {
             // Ajoute le pion à la liste des pions alignés
             winPawns.add(pawn);
 
