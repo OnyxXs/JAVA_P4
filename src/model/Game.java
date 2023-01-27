@@ -146,14 +146,7 @@ public class Game {
         if (checkVictory(col, row, currentPlayer)) {
             winner = currentPlayer;
 
-            Player winPlayer = new Player();
-            winPlayer.setColor(WIN_COLOR);
-            winPlayer.setSymbol(currentPlayer.getSymbol());
-
-            for (Pawn pawn : WINNING_PAWNS) {
-                pawn.setPlayer(winPlayer);
-            }
-            System.out.println(board.toString());
+            changeWinningPawnsColor();
 
             isPlaying = false;
             return;
@@ -163,6 +156,17 @@ public class Game {
         }
 
         switchPlayer();
+    }
+
+    public void changeWinningPawnsColor() {
+        Player winPlayer = new Player();
+        winPlayer.setColor(WIN_COLOR);
+        winPlayer.setSymbol(currentPlayer.getSymbol());
+
+        for (Pawn pawn : WINNING_PAWNS) {
+            pawn.setPlayer(winPlayer);
+        }
+        System.out.println(board.toString());
     }
 
     public void placePawn(int col, int LowestEmptyCell) {
@@ -276,6 +280,8 @@ public class Game {
         int rowStart = row - 3;
         int rowEnd = row + 4;
 
+        /* -------------------------------------------------------------------------- */
+        // Correction des coordonnées pour ne pas sortir du plateau
         if (colStart < 0) {
             colStart = 0;
             rowStart = row - (col - colStart);
@@ -295,6 +301,7 @@ public class Game {
             rowEnd = board.getHeight();
             colEnd = colStart + (rowEnd - rowStart) + 1;
         }
+        /* -------------------------------------------------------------------------- */
 
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
         for (int checkCol = colStart, checkRow = rowStart; checkCol < colEnd
@@ -312,6 +319,8 @@ public class Game {
         int rowStart = row + 3;
         int rowEnd = row - 4;
 
+        /* -------------------------------------------------------------------------- */
+        // Corrige les coordonnées si elles sont hors du plateau
         if (colStart < 0) {
             colStart = 0;
             rowStart = row + (col - colStart);
@@ -331,6 +340,7 @@ public class Game {
             rowEnd = -1;
             colEnd = colStart + (row - rowEnd) + 1;
         }
+        /* -------------------------------------------------------------------------- */
 
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
         for (int checkCol = colStart, checkRow = rowStart; checkCol < colEnd

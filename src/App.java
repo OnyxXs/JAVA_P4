@@ -1,9 +1,7 @@
-import model.Style;
 import model.Game;
 import model.Player;
 import model.Score;
 import model.IA;
-import model.Board;
 import model.Menu;
 
 import java.util.Scanner;
@@ -125,7 +123,7 @@ public class App {
                 return;
 
             } catch (Exception e) {
-
+                Menu.printError("Couleur invalide !");
             }
         }
     }
