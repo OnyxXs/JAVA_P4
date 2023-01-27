@@ -99,7 +99,7 @@ public class App {
             Menu.displayPlayerNameMenu(player);
 
             String input = getUserInput();
-            if (input.length() > 0) {
+            if (input.length() > 0 && !input.contains(";")) {
                 player.setName(input);
                 return;
             } else {

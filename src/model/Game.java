@@ -146,7 +146,14 @@ public class Game {
         if (checkVictory(col, row, currentPlayer)) {
             winner = currentPlayer;
 
-            changeWinningPawnsColor();
+            Player winPlayer = new Player();
+            winPlayer.setColor(WIN_COLOR);
+            winPlayer.setSymbol(currentPlayer.getSymbol());
+
+            for (Pawn pawn : WINNING_PAWNS) {
+                pawn.setPlayer(winPlayer);
+            }
+            System.out.println(board.toString());
 
             isPlaying = false;
             return;
@@ -156,17 +163,6 @@ public class Game {
         }
 
         switchPlayer();
-    }
-
-    public void changeWinningPawnsColor() {
-        Player winPlayer = new Player();
-        winPlayer.setColor(WIN_COLOR);
-        winPlayer.setSymbol(currentPlayer.getSymbol());
-
-        for (Pawn pawn : WINNING_PAWNS) {
-            pawn.setPlayer(winPlayer);
-        }
-        System.out.println(board.toString());
     }
 
     public void placePawn(int col, int LowestEmptyCell) {
