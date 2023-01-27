@@ -38,10 +38,10 @@ public class App {
                     Score.displayLeaderboard();
                     break;
                 case "4":
-                    Menu.printError("Fermeture du programme...");
+                    System.out.println(Menu.error("Fermeture du programme..."));
                     return;
                 default:
-                    Menu.printError("Option invalide !");
+                    System.out.println(Menu.error("Option invalide !"));
                     break;
             }
         }
@@ -103,7 +103,7 @@ public class App {
                 player.setName(input);
                 return;
             } else {
-                Menu.printError("Nom invalide !");
+                System.out.println(Menu.error("Nom invalide !"));
             }
         }
     }
@@ -123,7 +123,7 @@ public class App {
                 return;
 
             } catch (Exception e) {
-                Menu.printError("Couleur invalide !");
+                System.out.println(Menu.error("Couleur invalide !"));
             }
         }
     }
@@ -150,7 +150,7 @@ public class App {
                     player2.setSymbol('@');
                     return;
                 default:
-                    Menu.printError("Option invalide !");
+                    System.out.println(Menu.error("Symbole invalide !"));
                     break;
             }
         }
@@ -168,7 +168,7 @@ public class App {
 
                 if (column >= 0 && column <= game.getBoard().getWidth() - 1) {
                     if (game.getBoard().isColumnFull(column)) {
-                        Menu.printError("La colonne est pleine !");
+                        System.out.println(Menu.error("La colonne est pleine !"));
                     } else {
                         game.play(column);
                         return;
@@ -179,13 +179,13 @@ public class App {
                 }
             } catch (Exception e) {
                 if (input.equals("q")) {
-                    Menu.printError("Retour au menu principal...");
+                    System.out.println(Menu.error("Retour au menu principal..."));
                     game.setPlayingStatus(false);
                     game.setQuitStatus(true);
                     return;
 
                 } else {
-                    Menu.printError("Colonne invalide !");
+                    System.out.println(Menu.error("Colonne invalide !"));
                 }
             }
         }
@@ -205,7 +205,7 @@ public class App {
                     throw e;
                 }
             } catch (Exception e) {
-                Menu.printError("Difficulté invalide !");
+                System.out.println(Menu.error("Difficulté invalide !"));
             }
         }
     }
@@ -274,10 +274,10 @@ public class App {
                     playGame(game);
                     return;
                 case "2":
-                    Menu.printError("Retour au menu principal...");
+                    System.out.println(Menu.error("Retour au menu principal..."));
                     return;
                 default:
-                    Menu.printError("Option invalide !");
+                    System.out.println(Menu.error("Option invalide !"));
                     break;
             }
         }

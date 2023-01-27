@@ -73,7 +73,7 @@ public class Score implements Comparable<Score> {
             try {
                 csvFile.createNewFile();
             } catch (Exception e) {
-                Menu.printError("Erreur lors de la création du fichier de classement");
+                System.out.println(Menu.error("Erreur lors de la création du fichier de classement"));
             }
         }
 
@@ -89,7 +89,7 @@ public class Score implements Comparable<Score> {
             }
             reader.close();
         } catch (Exception e) {
-            Menu.printError("Erreur lors de la lecture du fichier de classement");
+            System.out.println(Menu.error("Erreur lors de la lecture du fichier de classement"));
         }
     }
 
@@ -101,7 +101,7 @@ public class Score implements Comparable<Score> {
             }
             writer.close();
         } catch (Exception e) {
-            Menu.printError("Erreur lors de l'écriture du fichier de classement");
+            System.out.println(Menu.error("Erreur lors de l'écriture du fichier de classement"));
         }
     }
 
@@ -110,8 +110,13 @@ public class Score implements Comparable<Score> {
 
         System.out.println("Classement des joueurs :");
         for (Score score : leaderboard) {
-            System.out
-                    .println(score.getName() + " : " + score.getScore() + " tours contre " + score.getOpponentName());
+            StringBuilder builder = new StringBuilder();
+            builder.append(Menu.coloredText(score.getName(), Style.GREEN));
+            builder.append(" : ");
+            builder.append(Menu.coloredText(score.getScore() + " tours", Style.CYAN));
+            builder.append(" contre ");
+            builder.append(Menu.coloredText(score.getOpponentName(), Style.RED));
+            System.out.println(builder.toString());
         }
     }
 
