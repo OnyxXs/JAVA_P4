@@ -267,7 +267,7 @@ public class App {
 
     public static void askForRestart(Game game) {
         while (true) {
-            Menu.printColoredText("Voulez-vous rejouer ?", Style.GREEN);
+            Menu.displayRestartMenu();
 
             String input = getUserInput();
             switch (input) {
