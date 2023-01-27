@@ -125,7 +125,7 @@ public class Game {
     }
 
     public void switchPlayer() {
-        if (currentPlayer.equals(player1)) {
+        if (currentPlayer == player1) {
             currentPlayer = player2;
             opponent = player1;
         } else {
@@ -134,7 +134,7 @@ public class Game {
         }
 
         // Augmente le nombre de tours de 1 si le joueur actuel est celui qui a commencé
-        if (currentPlayer.equals(firstPlayer)) {
+        if (currentPlayer == firstPlayer) {
             turn++;
         }
     }
@@ -272,12 +272,21 @@ public class Game {
 
     public boolean checkTopLeftToBottomRightWin(int col, int row, Player player) {
         int colStart = Math.max(col - 3, 0);
-        int colEnd = Math.min(col + 3, board.getWidth() - 1);
+        int colEnd = Math.min(col + 4, board.getWidth() - 1);
         int rowStart = Math.max(row - 3, 0);
-        int rowEnd = Math.min(row + 3, board.getHeight() - 1);
+        int rowEnd = Math.min(row + 4, board.getHeight() - 1);
+
+        if (rowStart == 0) {
+            colStart = col;
+        }
+
+        if (colStart == 0) {
+            rowStart = row;
+        }
 
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
-        for (int checkCol = colStart, checkRow = rowStart; checkCol <= colEnd
+        System.out.println("ok");
+        for (int checkCol = colStart, checkRow = rowStart; checkCol < colEnd
                 && checkRow <= rowEnd; checkCol++, checkRow++) {
             if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
                 return true;
@@ -288,13 +297,22 @@ public class Game {
 
     public boolean checkBottomLeftToTopRightWin(int col, int row, Player player) {
         int colStart = Math.max(col - 3, 0);
-        int colEnd = Math.min(col + 3, board.getWidth() - 1);
-        int rowStart = Math.max(row - 3, 0);
-        int rowEnd = Math.min(row + 3, board.getHeight() - 1);
+        int colEnd = Math.min(col + 4, board.getWidth() - 1);
+        int rowStart = Math.min(row + 3, board.getHeight() - 1);
+        int rowEnd = Math.max(row - 4, 0);
+
+        if (rowStart == board.getHeight() - 1) {
+            colStart = col;
+        }
+
+        if (colStart == 0) {
+            rowStart = row;
+        }
 
         ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
-        for (int checkCol = colStart, checkRow = rowEnd; checkCol <= colEnd
-                && checkRow >= rowStart; checkCol++, checkRow--) {
+        System.out.println("ok");
+        for (int checkCol = colStart, checkRow = rowStart; checkCol < colEnd
+                && checkRow >= rowEnd; checkCol++, checkRow--) {
             if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
                 return true;
             }
@@ -304,6 +322,8 @@ public class Game {
 
     public boolean getFourLinedPawns(int col, int row, Player player, ArrayList<Pawn> winPawns) {
         Pawn pawn = board.getCell(col, row);
+
+        Menu.printColoredText("position " + col + " " + row, player.getColor());
 
         // Si le pion appartient au joueur sélectionné
         if (pawn.getPlayer() == player) {
