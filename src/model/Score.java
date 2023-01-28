@@ -166,17 +166,26 @@ public class Score implements Comparable<Score> {
      * Affiche le classement.
      */
     public static void displayLeaderboard() {
+        if (leaderboard.size() == 0) {
+            System.out.println(Menu.error("Le classement est vide"));
+            return;
+        }
+
         leaderboard.sort(null);
 
-        System.out.println("Classement des joueurs :");
+        System.out.println(Menu.coloredText("Top 10 des joueurs :", Style.YELLOW));
+        int position = 1;
         for (Score score : leaderboard) {
             StringBuilder builder = new StringBuilder();
+            builder.append(Menu.coloredText("#" + position + " - ", Style.YELLOW));
             builder.append(Menu.coloredText(score.getName(), Style.GREEN));
             builder.append(" : ");
             builder.append(Menu.coloredText(score.getScore() + " tours", Style.CYAN));
             builder.append(" contre ");
             builder.append(Menu.coloredText(score.getOpponentName(), Style.RED));
             System.out.println(builder.toString());
+
+            position++;
         }
     }
 

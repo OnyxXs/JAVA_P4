@@ -42,9 +42,10 @@ public class Menu {
 
             menu.append((colorNumber + 1) + ". ");
             menu.append(color);
-            menu.append(colorName + "\n");
-            menu.append(Style.RESET);
+            menu.append(colorName);
+            menu.append(Style.RESET + "\n");
         }
+        menu.delete(menu.length() - 1, menu.length());
         System.out.println(menu.toString());
     }
 
@@ -96,7 +97,7 @@ public class Menu {
      * Retourne un message de titre de menu.
      */
     public static String MenuTitle(String title) {
-        return coloredText(title, Style.CYAN);
+        return coloredText(title, Style.CYAN + Style.BOLD + Style.UNDERLINE);
     }
 
     /**

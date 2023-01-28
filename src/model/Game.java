@@ -6,8 +6,8 @@ import java.util.Map;
 
 /**
  * Cette classe représente une partie de jeu. Elle contient un plateau de jeu.
- * Le nombre de tour écoulé.
- * 2 joueurs, dont le joueur qui joue ce tour-ci, le jouer opposé, et le joueur
+ * Le nombre de tours écoulés.
+ * 2 joueurs, dont le joueur qui joue ce tour-ci, le jouer opposé et le joueur
  * qui a commencé la partie.
  * Une liste de couleur que les joueurs peuvent choisir pour leurs pions.
  */
@@ -47,8 +47,6 @@ public class Game {
     public Game(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        this.currentPlayer = player1;
-        this.opponent = player2;
 
         initGame();
     }
@@ -57,7 +55,7 @@ public class Game {
      * Initialise la partie.
      */
     public void initGame() {
-        board = new Board(7, 6);
+        board = new Board(7, 6); // Affecte un nouveau plateau de jeu
         board.initBoard();
         isPlaying = true;
         turn = 1;
@@ -73,168 +71,6 @@ public class Game {
         };
 
         colorListIndex = new ArrayList<>(colorList.entrySet());
-    }
-
-    /**
-     * Affiche une représentation textuelle de la partie
-     *
-     */
-    public void display() {
-        String gameDisplay = this.toString();
-        System.out.println(gameDisplay);
-    }
-
-    /**
-     * Retourne le joueur numéro 1.
-     * 
-     * @return Le joueur numéro 1.
-     */
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    /**
-     * Retourne le joueur numéro 2.
-     * 
-     * @return Le joueur numéro 2.
-     */
-    public Player getPlayer2() {
-        return player2;
-    }
-
-    /**
-     * Retourne le joueur qui joue ce tour-ci.
-     * 
-     * @return Le joueur qui joue ce tour-ci.
-     */
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    /**
-     * Retourne le joueur qui ne joue pas ce tour-ci.
-     * 
-     * @return Le joueur qui ne joue pas ce tour-ci.
-     */
-    public Player getOpponent() {
-        return opponent;
-    }
-
-    /**
-     * Retourne le joueur qui a gagné la partie.
-     * 
-     * @return Le joueur qui a gagné la partie.
-     */
-    public Player getWinner() {
-        return winner;
-    }
-
-    /**
-     * Défini le joueur qui joue ce tour-ci.
-     * 
-     * @param currentPlayer Le joueur qui joue ce tour-ci.
-     */
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
-    /**
-     * Défini le joueur qui a gagné la partie.
-     * 
-     * @param winner Le joueur qui a gagné la partie.
-     */
-    public void setWinner(Player winner) {
-        this.winner = winner;
-    }
-
-    /**
-     * Défini le joueur qui a commencé la partie.
-     * 
-     * @param firstPlayer Le joueur qui a commencé la partie.
-     */
-    public void setFirstPlayer(Player firstPlayer) {
-        this.firstPlayer = firstPlayer;
-    }
-
-    /**
-     * Vérifie si la partie a été quittée prématurément.
-     * 
-     * @param status Le statut de la partie.
-     */
-    public void setQuitStatus(boolean status) {
-        wasQuit = status;
-    }
-
-    /**
-     * Retourne le statut de la partie.
-     * 
-     * @return Le statut de la partie.
-     */
-    public boolean wasQuit() {
-        return wasQuit;
-    }
-
-    /**
-     * Retourne le nombre de tour écoulé.
-     * 
-     * @return Le nombre de tour écoulé.
-     */
-    public int getTurn() {
-        return turn;
-    }
-
-    /**
-     * Retourne le plateau de jeu.
-     * 
-     * @return Le plateau de jeu.
-     */
-    public Board getBoard() {
-        return board;
-    }
-
-    /**
-     * Retourne le statut de la partie.
-     * 
-     * @return Le statut de la partie.
-     */
-    public boolean isPlaying() {
-        return isPlaying;
-    }
-
-    /**
-     * Affect un plateau de jeu.
-     * 
-     * @param board Le plateau de jeu.
-     */
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    /**
-     * Défini le statut de la partie.
-     * 
-     * @param status Le statut de la partie.
-     */
-    public void setPlayingStatus(boolean status) {
-        isPlaying = status;
-    }
-
-    /**
-     * Inverse le joueur actuel et son adversaire.
-     */
-    public void switchPlayer() {
-        if (currentPlayer == player1) {
-            currentPlayer = player2;
-            opponent = player1;
-        } else {
-            currentPlayer = player1;
-            opponent = player2;
-        }
-
-        // Augmente le nombre de tours de 1 si le joueur actuel est celui qui a commencé
-        if (currentPlayer == firstPlayer) {
-            turn++;
-        }
     }
 
     /**
@@ -286,7 +122,7 @@ public class Game {
             }
             board.setCell(col, row, currentPlayer);
 
-            // Réaffiche le plateau
+            // Ré-affiche le plateau
             System.out.println(board.toString());
 
             // Attends 200 ms avant de passer à l'itération suivante
@@ -299,7 +135,146 @@ public class Game {
     }
 
     /**
-     * Récupère la liste de toutes les positions gainantes pour le joueur spécifié.
+     * Affiche une représentation textuelle de la partie
+     *
+     */
+    public void display() {
+        String gameDisplay = this.toString();
+        System.out.println(gameDisplay);
+    }
+
+    /**
+     * Retourne le joueur qui joue ce tour-ci.
+     * 
+     * @return Le joueur qui joue ce tour-ci.
+     */
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     * Retourne le joueur qui ne joue pas ce tour-ci.
+     * 
+     * @return Le joueur qui ne joue pas ce tour-ci.
+     */
+    public Player getOpponent() {
+        return opponent;
+    }
+
+    /**
+     * Retourne le joueur qui a gagné la partie.
+     * 
+     * @return Le joueur qui a gagné la partie.
+     */
+    public Player getWinner() {
+        return winner;
+    }
+
+    /**
+     * Défini le joueur qui joue ce tour-ci.
+     * 
+     * @param currentPlayer Le joueur qui joue ce tour-ci.
+     */
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+        if (currentPlayer == player1) {
+            opponent = player2;
+        } else {
+            opponent = player1;
+        }
+    }
+
+    /**
+     * Défini le joueur qui a commencé la partie.
+     * 
+     * @param firstPlayer Le joueur qui a commencé la partie.
+     */
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
+        setCurrentPlayer(firstPlayer);
+    }
+
+    /**
+     * Vérifie si la partie a été quittée prématurément.
+     * 
+     * @param status Le statut de la partie.
+     */
+    public void setQuitStatus(boolean status) {
+        wasQuit = status;
+    }
+
+    /**
+     * Retourne le statut de la partie.
+     * 
+     * @return Le statut de la partie.
+     */
+    public boolean wasQuit() {
+        return wasQuit;
+    }
+
+    /**
+     * Retourne le nombre de tours écoulés.
+     * 
+     * @return Le nombre de tours écoulés.
+     */
+    public int getTurn() {
+        return turn;
+    }
+
+    /**
+     * Retourne le plateau de jeu.
+     * 
+     * @return Le plateau de jeu.
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Retourne le statut de la partie.
+     * 
+     * @return Le statut de la partie.
+     */
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    /**
+     * Affect un plateau de jeu.
+     * 
+     * @param board Le plateau de jeu.
+     */
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    /**
+     * Défini le statut de la partie.
+     * 
+     * @param status Le statut de la partie.
+     */
+    public void setPlayingStatus(boolean status) {
+        isPlaying = status;
+    }
+
+    /**
+     * Inverse le joueur actuel et son adversaire.
+     */
+    public void switchPlayer() {
+        if (currentPlayer == player1) {
+            setCurrentPlayer(player2);
+        } else {
+            setCurrentPlayer(player1);
+        }
+
+        // Augmente le nombre de tours de 1 si le joueur actuel est celui qui a commencé
+        if (currentPlayer == firstPlayer) {
+            turn++;
+        }
+    }
+
+    /**
+     * Récupère la liste de toutes les positions gagnantes pour le joueur spécifié.
      * 
      * @param player Le joueur pour lequel on récupère les positions gagnantes.
      * @return La liste de toutes les positions gagnantes pour le joueur spécifié.
@@ -322,7 +297,7 @@ public class Game {
                         winningPositions.add(position);
                     }
 
-                    // On remet revide la case
+                    // On re-vide la case
                     board.setCell(col, row, null);
                 }
             }
@@ -381,7 +356,8 @@ public class Game {
     }
 
     /**
-     * Vérifie si le coup est gagnant horizontalement.
+     * Vérifie si le coup est gagnant horizontalement autour de la position
+     * spécifiée.
      * 
      * @param col    La colonne dans laquelle le pion est placé.
      * @param row    La ligne dans laquelle le pion est placé.
@@ -389,21 +365,15 @@ public class Game {
      * @return true si le coup est gagnant, false sinon.
      */
     public boolean checkHorizontalWin(int col, int row, Player player) {
-        int colStart = Math.max(col - 3, 0);
-        int colEnd = Math.min(col + 3, board.getWidth() - 1);
+        int colStart = col - 3;
+        int colEnd = col + 3;
 
-        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
-        for (int checkCol = colStart; checkCol <= colEnd; checkCol++) {
-            if (getFourLinedPawns(checkCol, row, player, winPawns)) {
-                return true;
-            }
-
-        }
-        return false;
+        return getFourLinedPawns(colStart, colEnd, row, row, 1, 0, player, false);
     }
 
     /**
-     * Vérifie si le coup est gagnant verticalement.
+     * Vérifie si le coup est gagnant verticalement en dessous de la position
+     * spécifiée.
      * 
      * @param col    La colonne dans laquelle le pion est placé.
      * @param row    La ligne dans laquelle le pion est placé.
@@ -411,20 +381,15 @@ public class Game {
      * @return true si le coup est gagnant, false sinon.
      */
     public boolean checkVerticalWin(int col, int row, Player player) {
-        int rowStart = Math.max(row - 3, 0);
-        int rowEnd = Math.min(row + 3, board.getHeight() - 1);
+        int rowStart = row;
+        int rowEnd = row + 3;
 
-        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
-        for (int checkRow = rowStart; checkRow <= rowEnd; checkRow++) {
-            if (getFourLinedPawns(col, checkRow, player, winPawns)) {
-                return true;
-            }
-        }
-        return false;
+        return getFourLinedPawns(col, col, rowStart, rowEnd, 0, 1, player, false);
     }
 
     /**
-     * Vérifie si le coup est gagnant diagonalement de haut gauche à bas droite.
+     * Vérifie si le coup est gagnant diagonalement de haut gauche à bas droite
+     * autour de la position spécifiée.
      * 
      * @param col    La colonne dans laquelle le pion est placé.
      * @param row    La ligne dans laquelle le pion est placé.
@@ -433,45 +398,16 @@ public class Game {
      */
     public boolean checkTopLeftToBottomRightWin(int col, int row, Player player) {
         int colStart = col - 3;
-        int colEnd = col + 4;
+        int colEnd = col + 3;
         int rowStart = row - 3;
-        int rowEnd = row + 4;
+        int rowEnd = row + 3;
 
-        /* -------------------------------------------------------------------------- */
-        // Correction des coordonnées pour ne pas sortir du plateau
-        if (colStart < 0) {
-            colStart = 0;
-            rowStart = row - (col - colStart);
-        }
-
-        if (colEnd > board.getWidth() - 1) {
-            colEnd = board.getWidth();
-            rowEnd = rowStart + (colEnd - colStart) + 1;
-        }
-
-        if (rowStart < 0) {
-            rowStart = 0;
-            colStart = col - (row - rowStart);
-        }
-
-        if (rowEnd > board.getHeight() - 1) {
-            rowEnd = board.getHeight();
-            colEnd = colStart + (rowEnd - rowStart) + 1;
-        }
-        /* -------------------------------------------------------------------------- */
-
-        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
-        for (int checkCol = colStart, checkRow = rowStart; checkCol < colEnd
-                && checkRow < rowEnd; checkCol++, checkRow++) {
-            if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
-                return true;
-            }
-        }
-        return false;
+        return getFourLinedPawns(colStart, colEnd, rowStart, rowEnd, 1, 1, player, false);
     }
 
     /**
-     * Vérifie si le coup est gagnant diagonalement de bas gauche à haut droite.
+     * Vérifie si le coup est gagnant diagonalement de bas gauche à haut droite
+     * autour de la position spécifiée.
      * 
      * @param col    La colonne dans laquelle le pion est placé.
      * @param row    La ligne dans laquelle le pion est placé.
@@ -480,74 +416,63 @@ public class Game {
      */
     public boolean checkBottomLeftToTopRightWin(int col, int row, Player player) {
         int colStart = col - 3;
-        int colEnd = col + 4;
+        int colEnd = col + 3;
         int rowStart = row + 3;
-        int rowEnd = row - 4;
+        int rowEnd = row - 3;
 
-        /* -------------------------------------------------------------------------- */
-        // Corrige les coordonnées si elles sont hors du plateau
-        if (colStart < 0) {
-            colStart = 0;
-            rowStart = row + (col - colStart);
-        }
-
-        if (colEnd > board.getWidth() - 1) {
-            colEnd = board.getWidth() + 1;
-            rowEnd = rowStart - (colEnd - colStart) + 1;
-        }
-
-        if (rowStart > board.getHeight() - 1) {
-            rowStart = board.getHeight() - 1;
-            colStart = col - (rowStart - row);
-        }
-
-        if (rowEnd < 0) {
-            rowEnd = -1;
-            colEnd = colStart + (row - rowEnd) + 1;
-        }
-        /* -------------------------------------------------------------------------- */
-
-        ArrayList<Pawn> winPawns = new ArrayList<Pawn>();
-        for (int checkCol = colStart, checkRow = rowStart; checkCol < colEnd
-                && checkRow > rowEnd; checkCol++, checkRow--) {
-            if (getFourLinedPawns(checkCol, checkRow, player, winPawns)) {
-                return true;
-            }
-        }
-        return false;
+        return getFourLinedPawns(colStart, colEnd, rowStart, rowEnd, 1, -1, player, true);
     }
 
     /**
-     * Vérifie si un pion est aligné avec 3 pions suivants une direction
-     * 
-     * @param col    La colonne dans laquelle le pion est placé.
-     * @param row    La ligne dans laquelle le pion est placé.
-     * @param player Le joueur pour lequel on vérifie si le coup est gagnant.
-     * @return true si le coup est gagnant, false sinon.
+     * Vérifie si 4 pions sont alignés autour d'une position spécifiée jusqu'à une
+     * autre position spécifiée.
+     *
+     * @param colStart         La colonne de départ de la vérification.
+     * @param colEnd           La colonne de fin de la vérification.
+     * @param rowStart         La ligne de départ de la vérification.
+     * @param rowEnd           La ligne de fin de la vérification.
+     * @param colAdd           L'incrémentation de la colonne pour passer à la
+     *                         position suivante.
+     * @param rowAdd           L'incrémentation de la ligne pour passer à la
+     *                         position suivante.
+     * @param player           Le joueur pour lequel on vérifie les pions alignés.
+     * @param invertComparator Si true, les comparateurs de colonne et de ligne sont
+     *                         inversés.
+     * @return true si 4 pions sont alignés, false sinon.
      */
-    public boolean getFourLinedPawns(int col, int row, Player player, ArrayList<Pawn> winPawns) {
-        Pawn pawn = null;
-        if (col >= 0 && col < board.getWidth() && row >= 0 && row < board.getHeight()) {
-            pawn = board.getCell(col, row);
-        }
+    public boolean getFourLinedPawns(int colStart, int colEnd, int rowStart, int rowEnd, int colAdd, int rowAdd,
+            Player player, boolean invertComparator) {
 
-        // Si le pion appartient au joueur sélectionné
-        if (pawn != null && pawn.getPlayer() == player) {
-            // Ajoute le pion à la liste des pions alignés
-            winPawns.add(pawn);
-
-            // Si la liste des pions alignés contient 4 pions
-            if (winPawns.size() >= 4) {
-                if (WINNING_PAWNS.size() < 4)
-                    // Ajoute les pions alignés à la liste des pions gagnants
-                    WINNING_PAWNS.addAll(winPawns);
-
-                return true;
+        ArrayList<Pawn> linedPawns = new ArrayList<Pawn>(); // Liste des pions alignés
+        for (int col = colStart, row = rowStart; col <= colEnd
+                && (invertComparator ? row >= rowEnd : row <= rowEnd); col += colAdd, row += rowAdd) {
+            Pawn pawn = null;
+            try {
+                pawn = board.getCell(col, row); // Récupère le pion de la case
+            } catch (Exception e) {
+                // Si la case n'existe pas
             }
 
-        } else {
-            // Sinon réinitialise la liste des pions alignés
-            winPawns.clear();
+            // Si le pion appartient au joueur sélectionné
+            if (pawn != null && pawn.getPlayer() == player) {
+                // Ajoute le pion à la liste des pions alignés
+                linedPawns.add(pawn);
+
+                // Si la liste des pions alignés contient 4 pions
+                if (linedPawns.size() >= 4) {
+
+                    // S'il n'y a pas déjà 4 pions gagnants
+                    if (WINNING_PAWNS.size() < 4)
+                        // Ajoute les pions alignés à la liste des pions gagnants
+                        WINNING_PAWNS.addAll(linedPawns);
+
+                    return true;
+                }
+
+            } else {
+                // Sinon réinitialise la liste des pions alignés
+                linedPawns.clear();
+            }
         }
         return false;
     }
@@ -557,13 +482,9 @@ public class Game {
      */
     public void reset() {
         if (firstPlayer == player1) {
-            firstPlayer = player2;
-            currentPlayer = player2;
-            opponent = player1;
+            setFirstPlayer(player2);
         } else {
-            firstPlayer = player1;
-            currentPlayer = player1;
-            opponent = player2;
+            setFirstPlayer(player1);
         }
 
         initGame();

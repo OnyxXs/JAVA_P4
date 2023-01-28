@@ -79,10 +79,8 @@ public class App {
         int firstPlayerIndex = (int) Math.round(Math.random());
         if (firstPlayerIndex == 0) {
             game.setFirstPlayer(player1);
-            game.setCurrentPlayer(player1);
         } else {
             game.setFirstPlayer(ai);
-            game.setCurrentPlayer(ai);
         }
 
         selectPlayerNameOption(player1);
@@ -105,7 +103,6 @@ public class App {
 
         Game game = new Game(player1, player2);
         game.setFirstPlayer(player1);
-        game.setCurrentPlayer(player1);
 
         selectPlayerNameOption(player1);
         selectColorOption(player1);
@@ -342,6 +339,7 @@ public class App {
      * retourner
      * au menu principal.
      * 
+     * @param game La partie en cours
      */
     public static void askForRestart(Game game) {
         while (true) {
